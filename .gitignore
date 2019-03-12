@@ -1,0 +1,9 @@
+# Compliled Object files
+*.o
+*.a
+*.so
+
+# Folders
+
+# Execute files
+*.exe
