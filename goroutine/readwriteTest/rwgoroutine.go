@@ -70,7 +70,6 @@ func (l *LogProcess) Process() {
 	for v := range l.rc {
 		l.wc <- strings.ToUpper(string(v))
 	}
-
 }
 
 func main() {
