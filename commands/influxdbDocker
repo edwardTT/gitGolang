@@ -1,0 +1,121 @@
+
+Generate the default configuration file:
+
+$ docker run --rm influxdb influxd config > influxdb.conf  //切换到root账户后才可以正常执行
+
+//docker run -d --name="influxdb" -p 8086:8086 --restart on-failure -v influxdb_data:/var/lib/influxdb influxdb -config /etc/influxdb/infuxdb.conf  //执行时需要sudo
+
+docker run -d --name="influxdb" -p 8086:8086 --restart on-failure -v influxdb_data:/var/lib/influxdb influxdb //先不去配置config文件
+
+//进入容器bash 执行命令
+sudo docker exec -it influxdb /bin/bash
+
+
+常用命令：
+CREATE USER edward WITH PASSWORD 'password' WITH ALL PRIVILEGES
+AUTH
+CREATE DATABASE telegraf
+CREATE USER telegraf_nmc WITH PASSWORD 'REPLACE_ME'
+GRANT ALL TO telegraf_nmc
+CREATE USER telegraf_filesrv WITH PASSWORD 'REPLACE_ME'
+GRANT ALL TO telegraf_filesrv
+CREATE USER telegraf_bosco WITH PASSWORD 'REPLACE_ME'
+GRANT WRITE ON telegraf TO telegraf_bosco
+CREATE USER grafana WITH PASSWORD 'REPLACE_ME'
+GRANT READ ON telegraf TO grafana
+docker run -p 8086:8086 -v influxdb:/var/lib/influxdb influxdb
+
+bwxzing@bwxzing-docker:~$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+influxdb            latest              4ca83dc311a6        3 weeks ago         
+#docker run -d -p 8083:8083 -p8086:8086 --expose 8090 --expose 8099 --name influxsrv influxdb
+
+各个参数含义：
+
+-d：容器在后台运行
+
+-p：将容器内端口映射到宿主机端口，格式为 宿主机端口:容器内端口；8083是influxdb的web管理工具端口，8086是influxdb的HTTP API端口
+
+--expose：可以让容器接受外部传入的数据
+
+--name：容器名称
+
+最后是镜像名称+tag，镜像为influxdb，tag的值0.8.8指定了要运行的版本，默认是latest。
+
+
+
+sudo docker exec -it influxsrv /bin/bash
+
+Creating a DB named mydbTest:
+curl -G http://localhost:8086/query --data-urlencode "q=CREATE DATABASE mydbTest"
+
+Inserting into the DB:
+curl -i -XPOST 'http://localhost:8086/write?db=mydbTest' --data-binary 'cpu_load_short,host=server01,region=us-west value=0.64 1434055562000000000'
+
+docker run -d --name="influxdb" -p 8086:8086 -v influxdb_data:/var/lib/influxdb influxdb -config /etc/influxdb/infuxdb.conf
+
+
+console log:
+bwxzing@bwxzing-docker:/etc/influxdb$ sudo docker run -d --name="influxdb" -p 8086:8086 --restart on-failure -v influxdb_data:/var/lib/influxdb influxdb
+a343aca450a79b1a33635536c90abad7a1493df79aa29557df1b3582f668e511
+bwxzing@bwxzing-docker:/etc/influxdb$ 
+bwxzing@bwxzing-docker:/etc/influxdb$ 
+bwxzing@bwxzing-docker:/etc/influxdb$ sudo docker ps -a 
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                NAMES
+a343aca450a7        influxdb            "/entrypoint.sh infl…"   12 seconds ago      Up 10 seconds       0.0.0.0:8086->8086/tcp               influxdb
+bae7483aeebc        mysql:5.7           "docker-entrypoint.s…"   4 weeks ago         Up 13 days          33060/tcp, 0.0.0.0:13307->3306/tcp   mysql-slave
+efec067e34ed        mysql:5.7           "docker-entrypoint.s…"   4 weeks ago         Up 13 days          33060/tcp, 0.0.0.0:13306->3306/tcp   mysql-master
+bwxzing@bwxzing-docker:/etc/influxdb$ sudo docker exec -it influxdb /bin/bash
+root@a343aca450a7:/# influx
+influx          influx_inspect  influx_stress   influx_tsm      influxd         
+root@a343aca450a7:/# influx
+Connected to http://localhost:8086 version 1.7.5
+InfluxDB shell version: 1.7.5
+Enter an InfluxQL query
+
+
+数据已经写入数据库。查看命令和console log.
+root@a343aca450a7:/# influx   
+influx          influx_inspect  influx_stress   influx_tsm      influxd         
+root@a343aca450a7:/# influx
+Connected to http://localhost:8086 version 1.7.5
+InfluxDB shell version: 1.7.5
+Enter an InfluxQL query
+> SHOW DATABASE
+ERR: error parsing query: found DATABASE, expected CONTINUOUS, DATABASES, DIAGNOSTICS, FIELD, GRANTS, MEASUREMENT, MEASUREMENTS, QUERIES, RETENTION, SERIES, SHARD, SHARDS, STATS, SUBSCRIPTIONS, TAG, USERS at line 1, char 6
+Warning: It is possible this error is due to not setting a database.
+Please set a database with the command "use <database>".
+> SHOW DATABASES
+name: databases
+name
+----
+_internal
+elog
+Log_Database
+> USE Log_Database
+Using database Log_Database
+> SHOW RETENTION POLICIES
+name    duration shardGroupDuration replicaN default
+----    -------- ------------------ -------- -------
+autogen 0s       168h0m0s           1        true
+> SHOW SERIES
+key
+---
+nginx_log,Method=GET,Path=/bar,Scheme=http,Status=200
+nginx_log,Method=GET,Path=/bar,Scheme=http,Status=500
+nginx_log,Method=GET,Path=/bar,Scheme=https,Status=200
+nginx_log,Method=GET,Path=/bar,Scheme=https,Status=500
+nginx_log,Method=GET,Path=/baz,Scheme=http,Status=200
+nginx_log,Method=GET,Path=/baz,Scheme=http,Status=500
+nginx_log,Method=GET,Path=/baz,Scheme=https,Status=200
+nginx_log,Method=GET,Path=/baz,Scheme=https,Status=500
+nginx_log,Method=GET,Path=/foo,Scheme=http,Status=200
+nginx_log,Method=GET,Path=/foo,Scheme=http,Status=500
+nginx_log,Method=GET,Path=/foo,Scheme=https,Status=200
+nginx_log,Method=GET,Path=/foo,Scheme=https,Status=500
+nginx_log,Method=GET,Path=/qux,Scheme=http,Status=200
+nginx_log,Method=GET,Path=/qux,Scheme=http,Status=500
+nginx_log,Method=GET,Path=/qux,Scheme=https,Status=200
+nginx_log,Method=GET,Path=/qux,Scheme=https,Status=500
+> 
+
