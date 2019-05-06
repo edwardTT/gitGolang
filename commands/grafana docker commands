@@ -1,0 +1,3 @@
+Grafana
+
+sudo docker run -d --name=grafana --resart=always -p 3000:3000 grafana/grafana
