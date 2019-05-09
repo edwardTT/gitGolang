@@ -67,6 +67,8 @@ type Message struct {
 	UpstreamTime, RequestTime    float64
 }
 
+
+
 func (w *WriteToInfluxDB) Write(wc chan *Message) {
 	//写入模块
 	for v := range wc {
