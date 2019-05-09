@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"gitGolang/edwardfilesever/handler"
+	"gitGolang/edwardfilesever/lensone1_handler_get/handler"
 	"net/http"
 )
 
