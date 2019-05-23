@@ -1,0 +1,8 @@
+Firmwareshow
+Sfpshow -all
+Switchshow
+Chassisshow
+Psshow
+Fanshow
+Tempshow
+Spinfab

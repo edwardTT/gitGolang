@@ -1,0 +1,1088 @@
+select pg_relation_size('users');
+select pg_relation_size('threads');
+
+Microsoft Windows [Version 10.0.15063]
+(c) 2017 Microsoft Corporation. All rights reserved.
+
+C:\Users\el023144>$PGPORT
+'$PGPORT' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\el023144>psql
+psql: could not connect to server: Connection refused (0x0000274D/10061)
+        Is the server running on host "localhost" (::1) and accepting
+        TCP/IP connections on port 5432?
+could not connect to server: Connection refused (0x0000274D/10061)
+        Is the server running on host "localhost" (127.0.0.1) and accepting
+        TCP/IP connections on port 5432?
+
+C:\Users\el023144>psql --help
+psql is the PostgreSQL interactive terminal.
+
+Usage:
+  psql [OPTION]... [DBNAME [USERNAME]]
+
+General options:
+  -c, --command=COMMAND    run only single command (SQL or internal) and exit
+  -d, --dbname=DBNAME      database name to connect to (default: "postgres")
+  -f, --file=FILENAME      execute commands from file, then exit
+  -l, --list               list available databases, then exit
+  -v, --set=, --variable=NAME=VALUE
+                           set psql variable NAME to VALUE
+                           (e.g., -v ON_ERROR_STOP=1)
+  -V, --version            output version information, then exit
+  -X, --no-psqlrc          do not read startup file (~/.psqlrc)
+  -1 ("one"), --single-transaction
+                           execute as a single transaction (if non-interactive)
+  -?, --help[=options]     show this help, then exit
+      --help=commands      list backslash commands, then exit
+      --help=variables     list special variables, then exit
+
+Input and output options:
+  -a, --echo-all           echo all input from script
+  -b, --echo-errors        echo failed commands
+  -e, --echo-queries       echo commands sent to server
+  -E, --echo-hidden        display queries that internal commands generate
+  -L, --log-file=FILENAME  send session log to file
+  -n, --no-readline        disable enhanced command line editing (readline)
+  -o, --output=FILENAME    send query results to file (or |pipe)
+  -q, --quiet              run quietly (no messages, only query output)
+  -s, --single-step        single-step mode (confirm each query)
+  -S, --single-line        single-line mode (end of line terminates SQL command)
+
+Output format options:
+  -A, --no-align           unaligned table output mode
+  -F, --field-separator=STRING
+                           field separator for unaligned output (default: "|")
+  -H, --html               HTML table output mode
+  -P, --pset=VAR[=ARG]     set printing option VAR to ARG (see \pset command)
+  -R, --record-separator=STRING
+                           record separator for unaligned output (default: newline)
+  -t, --tuples-only        print rows only
+  -T, --table-attr=TEXT    set HTML table tag attributes (e.g., width, border)
+  -x, --expanded           turn on expanded table output
+  -z, --field-separator-zero
+                           set field separator for unaligned output to zero byte
+  -0, --record-separator-zero
+                           set record separator for unaligned output to zero byte
+
+Connection options:
+  -h, --host=HOSTNAME      database server host or socket directory (default: "localhost")
+  -p, --port=PORT          database server port (default: "5432")
+  -U, --username=USERNAME  database user name (default: "postgres")
+  -w, --no-password        never prompt for password
+  -W, --password           force password prompt (should happen automatically)
+
+For more information, type "\?" (for internal commands) or "\help" (for SQL
+commands) from within psql, or consult the psql section in the PostgreSQL
+documentation.
+
+Report bugs to <pgsql-bugs@postgresql.org>.
+
+C:\Users\el023144>psql -h localhost -U Administrator -U postgres  -p 5432 -W
+Password:
+psql: could not connect to server: Connection refused (0x0000274D/10061)
+        Is the server running on host "localhost" (::1) and accepting
+        TCP/IP connections on port 5432?
+could not connect to server: Connection refused (0x0000274D/10061)
+        Is the server running on host "localhost" (127.0.0.1) and accepting
+        TCP/IP connections on port 5432?
+
+C:\Users\el023144>psql -W
+Password:
+psql: could not connect to server: Connection refused (0x0000274D/10061)
+        Is the server running on host "localhost" (::1) and accepting
+        TCP/IP connections on port 5432?
+could not connect to server: Connection refused (0x0000274D/10061)
+        Is the server running on host "localhost" (127.0.0.1) and accepting
+        TCP/IP connections on port 5432?
+
+C:\Users\el023144>psql -V
+psql (PostgreSQL) 11.3
+
+C:\Users\el023144>psql --help
+psql is the PostgreSQL interactive terminal.
+
+Usage:
+  psql [OPTION]... [DBNAME [USERNAME]]
+
+General options:
+  -c, --command=COMMAND    run only single command (SQL or internal) and exit
+  -d, --dbname=DBNAME      database name to connect to (default: "postgres")
+  -f, --file=FILENAME      execute commands from file, then exit
+  -l, --list               list available databases, then exit
+  -v, --set=, --variable=NAME=VALUE
+                           set psql variable NAME to VALUE
+                           (e.g., -v ON_ERROR_STOP=1)
+  -V, --version            output version information, then exit
+  -X, --no-psqlrc          do not read startup file (~/.psqlrc)
+  -1 ("one"), --single-transaction
+                           execute as a single transaction (if non-interactive)
+  -?, --help[=options]     show this help, then exit
+      --help=commands      list backslash commands, then exit
+      --help=variables     list special variables, then exit
+
+Input and output options:
+  -a, --echo-all           echo all input from script
+  -b, --echo-errors        echo failed commands
+  -e, --echo-queries       echo commands sent to server
+  -E, --echo-hidden        display queries that internal commands generate
+  -L, --log-file=FILENAME  send session log to file
+  -n, --no-readline        disable enhanced command line editing (readline)
+  -o, --output=FILENAME    send query results to file (or |pipe)
+  -q, --quiet              run quietly (no messages, only query output)
+  -s, --single-step        single-step mode (confirm each query)
+  -S, --single-line        single-line mode (end of line terminates SQL command)
+
+Output format options:
+  -A, --no-align           unaligned table output mode
+  -F, --field-separator=STRING
+                           field separator for unaligned output (default: "|")
+  -H, --html               HTML table output mode
+  -P, --pset=VAR[=ARG]     set printing option VAR to ARG (see \pset command)
+  -R, --record-separator=STRING
+                           record separator for unaligned output (default: newline)
+  -t, --tuples-only        print rows only
+  -T, --table-attr=TEXT    set HTML table tag attributes (e.g., width, border)
+  -x, --expanded           turn on expanded table output
+  -z, --field-separator-zero
+                           set field separator for unaligned output to zero byte
+  -0, --record-separator-zero
+                           set record separator for unaligned output to zero byte
+
+Connection options:
+  -h, --host=HOSTNAME      database server host or socket directory (default: "localhost")
+  -p, --port=PORT          database server port (default: "5432")
+  -U, --username=USERNAME  database user name (default: "postgres")
+  -w, --no-password        never prompt for password
+  -W, --password           force password prompt (should happen automatically)
+
+For more information, type "\?" (for internal commands) or "\help" (for SQL
+commands) from within psql, or consult the psql section in the PostgreSQL
+documentation.
+
+Report bugs to <pgsql-bugs@postgresql.org>.
+
+C:\Users\el023144>pg_ctl -D "C:\Program Files\PostgreSQL\11\data" start
+pg_ctl: directory "C:/Program Files/PostgreSQL/11/data" is not a database cluster directory
+
+C:\Users\el023144>pg_ctl -D "C:\Program Files\PostgreSQL\11\data" start
+pg_ctl: directory "C:/Program Files/PostgreSQL/11/data" is not a database cluster directory
+
+C:\Users\el023144>pg_ctl --help
+pg_ctl is a utility to initialize, start, stop, or control a PostgreSQL server.
+
+Usage:
+  pg_ctl init[db] [-D DATADIR] [-s] [-o OPTIONS]
+  pg_ctl start    [-D DATADIR] [-l FILENAME] [-W] [-t SECS] [-s]
+                  [-o OPTIONS] [-p PATH] [-c]
+  pg_ctl stop     [-D DATADIR] [-m SHUTDOWN-MODE] [-W] [-t SECS] [-s]
+  pg_ctl restart  [-D DATADIR] [-m SHUTDOWN-MODE] [-W] [-t SECS] [-s]
+                  [-o OPTIONS] [-c]
+  pg_ctl reload   [-D DATADIR] [-s]
+  pg_ctl status   [-D DATADIR]
+  pg_ctl promote  [-D DATADIR] [-W] [-t SECS] [-s]
+  pg_ctl kill     SIGNALNAME PID
+  pg_ctl register [-D DATADIR] [-N SERVICENAME] [-U USERNAME] [-P PASSWORD]
+                  [-S START-TYPE] [-e SOURCE] [-W] [-t SECS] [-s] [-o OPTIONS]
+  pg_ctl unregister [-N SERVICENAME]
+
+Common options:
+  -D, --pgdata=DATADIR   location of the database storage area
+  -e SOURCE              event source for logging when running as a service
+  -s, --silent           only print errors, no informational messages
+  -t, --timeout=SECS     seconds to wait when using -w option
+  -V, --version          output version information, then exit
+  -w, --wait             wait until operation completes (default)
+  -W, --no-wait          do not wait until operation completes
+  -?, --help             show this help, then exit
+If the -D option is omitted, the environment variable PGDATA is used.
+
+Options for start or restart:
+  -c, --core-files       not applicable on this platform
+  -l, --log=FILENAME     write (or append) server log to FILENAME
+  -o, --options=OPTIONS  command line options to pass to postgres
+                         (PostgreSQL server executable) or initdb
+  -p PATH-TO-POSTGRES    normally not necessary
+
+Options for stop or restart:
+  -m, --mode=MODE        MODE can be "smart", "fast", or "immediate"
+
+Shutdown modes are:
+  smart       quit after all clients have disconnected
+  fast        quit directly, with proper shutdown (default)
+  immediate   quit without complete shutdown; will lead to recovery on restart
+
+Allowed signal names for kill:
+  ABRT HUP INT KILL QUIT TERM USR1 USR2
+
+Options for register and unregister:
+  -N SERVICENAME  service name with which to register PostgreSQL server
+  -P PASSWORD     password of account to register PostgreSQL server
+  -U USERNAME     user name of account to register PostgreSQL server
+  -S START-TYPE   service start type to register PostgreSQL server
+
+Start types are:
+  auto       start service automatically during system startup (default)
+  demand     start service on demand
+
+Report bugs to <pgsql-bugs@postgresql.org>.
+
+C:\Users\el023144>pg_ctl -D C:\Program Files\PostgreSQL\11\data start
+pg_ctl: unrecognized operation mode "Files\PostgreSQL\11\data"
+Try "pg_ctl --help" for more information.
+
+C:\Users\el023144>pg_ctl -D C:\pgsql\data start
+pg_ctl: directory "C:/pgsql/data" is not a database cluster directory
+
+C:\Users\el023144>initdb.exe -D C:\pgsql\data -E UTF-8 --locale=chs -U postgres -W
+The files belonging to this database system will be owned by user "el023144".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "Chinese_China.936".
+initdb: could not find suitable text search configuration for locale "Chinese_China.936"
+The default text search configuration will be set to "simple".
+
+Data page checksums are disabled.
+
+Enter new superuser password:
+Enter it again:
+
+fixing permissions on existing directory C:/pgsql/data ... ok
+creating subdirectories ... ok
+selecting default max_connections ... 100
+selecting default shared_buffers ... 128MB
+selecting dynamic shared memory implementation ... windows
+creating configuration files ... ok
+running bootstrap script ... ok
+performing post-bootstrap initialization ... ok
+syncing data to disk ... ok
+
+WARNING: enabling "trust" authentication for local connections
+You can change this by editing pg_hba.conf or using the option -A, or
+--auth-local and --auth-host, the next time you run initdb.
+
+Success. You can now start the database server using:
+
+    pg_ctl -D ^"C^:^\pgsql^\data^" -l logfile start
+
+
+C:\Users\el023144>pg_ctl -D C:\pgsql\data start
+waiting for server to start.....2019-05-16 07:00:44.843 GMT [29036] LOG:  listening on IPv6 address "::1", port 5432
+2019-05-16 07:00:44.844 GMT [29036] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2019-05-16 07:00:45.306 GMT [30872] LOG:  database system was shut down at 2019-05-16 07:00:30 GMT
+.2019-05-16 07:00:46.285 GMT [29036] LOG:  database system is ready to accept connections
+ done
+server started
+
+C:\Users\el023144>2019-05-16 07:05:44.768 GMT [4784] LOG:  invalid length of startup packet
+2019-05-16 07:05:44.813 GMT [19112] LOG:  invalid length of startup packet
+2019-05-16 07:05:45.252 GMT [12108] LOG:  invalid length of startup packet
+
+C:\Users\el023144>
+C:\Users\el023144>
+C:\Users\el023144>pg_ctl --help
+pg_ctl is a utility to initialize, start, stop, or control a PostgreSQL server.
+
+Usage:
+  pg_ctl init[db] [-D DATADIR] [-s] [-o OPTIONS]
+  pg_ctl start    [-D DATADIR] [-l FILENAME] [-W] [-t SECS] [-s]
+                  [-o OPTIONS] [-p PATH] [-c]
+  pg_ctl stop     [-D DATADIR] [-m SHUTDOWN-MODE] [-W] [-t SECS] [-s]
+  pg_ctl restart  [-D DATADIR] [-m SHUTDOWN-MODE] [-W] [-t SECS] [-s]
+                  [-o OPTIONS] [-c]
+  pg_ctl reload   [-D DATADIR] [-s]
+  pg_ctl status   [-D DATADIR]
+  pg_ctl promote  [-D DATADIR] [-W] [-t SECS] [-s]
+  pg_ctl kill     SIGNALNAME PID
+  pg_ctl register [-D DATADIR] [-N SERVICENAME] [-U USERNAME] [-P PASSWORD]
+                  [-S START-TYPE] [-e SOURCE] [-W] [-t SECS] [-s] [-o OPTIONS]
+  pg_ctl unregister [-N SERVICENAME]
+
+Common options:
+  -D, --pgdata=DATADIR   location of the database storage area
+  -e SOURCE              event source for logging when running as a service
+  -s, --silent           only print errors, no informational messages
+  -t, --timeout=SECS     seconds to wait when using -w option
+  -V, --version          output version information, then exit
+  -w, --wait             wait until operation completes (default)
+  -W, --no-wait          do not wait until operation completes
+  -?, --help             show this help, then exit
+If the -D option is omitted, the environment variable PGDATA is used.
+
+Options for start or restart:
+  -c, --core-files       not applicable on this platform
+  -l, --log=FILENAME     write (or append) server log to FILENAME
+  -o, --options=OPTIONS  command line options to pass to postgres
+                         (PostgreSQL server executable) or initdb
+  -p PATH-TO-POSTGRES    normally not necessary
+
+Options for stop or restart:
+  -m, --mode=MODE        MODE can be "smart", "fast", or "immediate"
+
+Shutdown modes are:
+  smart       quit after all clients have disconnected
+  fast        quit directly, with proper shutdown (default)
+  immediate   quit without complete shutdown; will lead to recovery on restart
+
+Allowed signal names for kill:
+  ABRT HUP INT KILL QUIT TERM USR1 USR2
+
+Options for register and unregister:
+  -N SERVICENAME  service name with which to register PostgreSQL server
+  -P PASSWORD     password of account to register PostgreSQL server
+  -U USERNAME     user name of account to register PostgreSQL server
+  -S START-TYPE   service start type to register PostgreSQL server
+
+Start types are:
+  auto       start service automatically during system startup (default)
+  demand     start service on demand
+
+Report bugs to <pgsql-bugs@postgresql.org>.
+
+C:\Users\el023144>pg_ctl register -N PostgreSQL -D C:\pgsql\data
+pg_ctl: could not open service manager
+
+C:\Users\el023144>pg_ctl register -N PostgreSQL -D C:\pgsql\data
+pg_ctl: could not open service manager
+
+C:\Users\el023144>
+C:\Users\el023144>psql -W
+Password:
+psql (11.3)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# show databases;
+2019-05-16 07:18:13.346 GMT [13716] ERROR:  unrecognized configuration parameter "databases"
+2019-05-16 07:18:13.346 GMT [13716] STATEMENT:  show databases;
+ERROR:  unrecognized configuration parameter "databases"
+postgres=# show status;
+2019-05-16 07:18:35.650 GMT [13716] ERROR:  unrecognized configuration parameter "status"
+2019-05-16 07:18:35.650 GMT [13716] STATEMENT:  show status;
+ERROR:  unrecognized configuration parameter "status"
+postgres=# create table users (
+postgres(#   id         serial primary key,
+postgres(#   uuid       varchar(64) not null unique,
+postgres(#   name       varchar(255),
+postgres(#   email      varchar(255) not null unique,
+postgres(#   password   varchar(255) not null,
+postgres(#   created_at timestamp not null
+postgres(# );
+CREATE TABLE
+postgres=#
+postgres=#
+postgres=# create table sessions (
+postgres(#   id         serial primary key,
+postgres(#   uuid       varchar(64) not null unique,
+postgres(#   email      varchar(255),
+postgres(#   user_id    integer references users(id),
+postgres(#   created_at timestamp not null
+postgres(# );
+CREATE TABLE
+postgres=# create table threads (
+postgres(#   id         serial primary key,
+postgres(#   uuid       varchar(64) not null unique,
+postgres(#   topic      text,
+postgres(#   user_id    integer references users(id),
+postgres(#   created_at timestamp not null
+postgres(# );
+CREATE TABLE
+postgres=# create table posts (
+postgres(#   id         serial primary key,
+postgres(#   uuid       varchar(64) not null unique,
+postgres(#   body       text,
+postgres(#   user_id    integer references users(id),
+postgres(#   thread_id  integer references threads(id),
+postgres(#   created_at timestamp not null
+postgres(# );
+CREATE TABLE
+postgres=# select * from pg_user
+postgres-# select * from pg_database;
+2019-05-16 07:23:02.009 GMT [13716] ERROR:  syntax error at or near "select" at character 23
+2019-05-16 07:23:02.009 GMT [13716] STATEMENT:  select * from pg_user
+        select * from pg_database;
+ERROR:  syntax error at or near "select"
+LINE 2: select * from pg_database;
+        ^
+postgres=# createdb chitchat
+postgres-# select * from pg_database
+postgres-# 2019-05-16 07:33:53.826 GMT [30008] FATAL:  database "chitchat" does not exist
+
+postgres-# createdb chitchat
+postgres-# 2019-05-16 07:35:33.515 GMT [26716] FATAL:  database "chitchat" does not exist
+
+postgres-#
+postgres-# create database chitchat
+postgres-# create database chitchat;
+2019-05-16 07:37:07.986 GMT [13716] ERROR:  syntax error at or near "createdb" at character 1
+2019-05-16 07:37:07.986 GMT [13716] STATEMENT:  createdb chitchat
+        select * from pg_database
+        createdb chitchat
+        create database chitchat
+        create database chitchat;
+ERROR:  syntax error at or near "createdb"
+LINE 1: createdb chitchat
+        ^
+postgres=# create database chitchat;
+CREATE DATABASE
+postgres=# 2019-05-16 07:37:57.401 GMT [18112] ERROR:  table "posts" does not exist
+2019-05-16 07:37:57.401 GMT [18112] STATEMENT:  drop table posts;
+2019-05-16 07:37:57.436 GMT [18112] ERROR:  table "threads" does not exist
+2019-05-16 07:37:57.436 GMT [18112] STATEMENT:  drop table threads;
+2019-05-16 07:37:57.449 GMT [18112] ERROR:  table "sessions" does not exist
+2019-05-16 07:37:57.449 GMT [18112] STATEMENT:  drop table sessions;
+2019-05-16 07:37:57.454 GMT [18112] ERROR:  table "users" does not exist
+2019-05-16 07:37:57.454 GMT [18112] STATEMENT:  drop table users;
+
+postgres=# 2019-05-16 08:11:25.634 GMT [528] FATAL:  role "el023144" does not exist
+2019-05-16 08:12:01.372 GMT [25140] FATAL:  role "el023144" does not exist
+2019-05-16 08:12:26.424 GMT [32168] FATAL:  role "el023144" does not exist
+2019-05-16 08:12:47.297 GMT [22800] FATAL:  role "el023144" does not exist
+2019-05-16 08:12:49.588 GMT [28564] FATAL:  role "el023144" does not exist
+2019-05-16 08:13:02.235 GMT [23056] FATAL:  role "el023144" does not exist
+2019-05-16 08:13:26.499 GMT [10616] FATAL:  role "el023144" does not exist
+2019-05-16 08:13:29.278 GMT [12596] FATAL:  role "el023144" does not exist
+2019-05-16 08:13:32.333 GMT [31492] FATAL:  role "el023144" does not exist
+2019-05-16 08:13:33.739 GMT [17876] FATAL:  role "el023144" does not exist
+2019-05-16 08:27:45.497 GMT [6732] FATAL:  role "el023144" does not exist
+2019-05-16 08:27:48.010 GMT [22156] FATAL:  role "el023144" does not exist
+2019-05-16 08:27:58.041 GMT [4000] FATAL:  role "el023144" does not exist
+2019-05-16 08:28:00.821 GMT [28592] FATAL:  role "el023144" does not exist
+2019-05-16 08:28:02.877 GMT [29488] FATAL:  role "el023144" does not exist
+2019-05-16 08:28:04.313 GMT [20880] FATAL:  role "el023144" does not exist
+2019-05-16 08:29:05.910 GMT [10520] FATAL:  role "el023144" does not exist
+2019-05-16 08:29:09.419 GMT [19640] FATAL:  role "el023144" does not exist
+2019-05-16 08:29:12.579 GMT [30984] FATAL:  role "el023144" does not exist
+2019-05-16 08:29:14.078 GMT [29484] FATAL:  role "el023144" does not exist
+2019-05-16 08:29:15.768 GMT [3508] FATAL:  role "el023144" does not exist
+2019-05-16 08:29:25.204 GMT [25904] FATAL:  role "el023144" does not exist
+
+postgres=#
+postgres=# \du
+                                   List of roles
+ Role name |                         Attributes                         | Member of
+-----------+------------------------------------------------------------+-----------
+ el023144  | Superuser, Create role, Create DB                          | {}
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+
+postgres=# show database;
+2019-05-17 03:03:18.418 GMT [13716] ERROR:  unrecognized configuration parameter "database"
+2019-05-17 03:03:18.418 GMT [13716] STATEMENT:  show database;
+ERROR:  unrecognized configuration parameter "database"
+postgres=# show databases;
+2019-05-17 03:03:30.350 GMT [13716] ERROR:  unrecognized configuration parameter "databases"
+2019-05-17 03:03:30.350 GMT [13716] STATEMENT:  show databases;
+ERROR:  unrecognized configuration parameter "databases"
+postgres=# select * from pg_database
+postgres-# show create databases;
+2019-05-17 03:05:57.958 GMT [13716] ERROR:  syntax error at or near "create" at character 32
+2019-05-17 03:05:57.958 GMT [13716] STATEMENT:  select * from pg_database
+        show create databases;
+ERROR:  syntax error at or near "create"
+LINE 2: show create databases;
+             ^
+postgres=# \l
+                                        List of databases
+   Name    |  Owner   | Encoding |      Collate      |       Ctype       |   Access privileges
+-----------+----------+----------+-------------------+-------------------+-----------------------
+ chitchat  | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 |
+ postgres  | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 |
+ template0 | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 | =c/postgres          +
+           |          |          |                   |                   | postgres=CTc/postgres
+ template1 | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 | =c/postgres          +
+           |          |          |                   |                   | postgres=CTc/postgres
+(4 rows)
+
+
+postgres=# \du
+                                   List of roles
+ Role name |                         Attributes                         | Member of
+-----------+------------------------------------------------------------+-----------
+ el023144  | Superuser, Create role, Create DB                          | {}
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+
+postgres=# select * from current_user;
+ current_user
+--------------
+ postgres
+(1 row)
+
+
+postgres=# \dl
+      Large objects
+ ID | Owner | Description
+----+-------+-------------
+(0 rows)
+
+
+postgres=# \dt
+          List of relations
+ Schema |   Name   | Type  |  Owner
+--------+----------+-------+----------
+ public | posts    | table | postgres
+ public | sessions | table | postgres
+ public | threads  | table | postgres
+ public | users    | table | postgres
+(4 rows)
+
+
+postgres=# \l
+                                        List of databases
+   Name    |  Owner   | Encoding |      Collate      |       Ctype       |   Access privileges
+-----------+----------+----------+-------------------+-------------------+-----------------------
+ chitchat  | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 |
+ postgres  | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 |
+ template0 | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 | =c/postgres          +
+           |          |          |                   |                   | postgres=CTc/postgres
+ template1 | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 | =c/postgres          +
+           |          |          |                   |                   | postgres=CTc/postgres
+(4 rows)
+
+
+postgres=# \dt
+          List of relations
+ Schema |   Name   | Type  |  Owner
+--------+----------+-------+----------
+ public | posts    | table | postgres
+ public | sessions | table | postgres
+ public | threads  | table | postgres
+ public | users    | table | postgres
+(4 rows)
+
+
+postgres=# \du
+                                   List of roles
+ Role name |                         Attributes                         | Member of
+-----------+------------------------------------------------------------+-----------
+ el023144  | Superuser, Create role, Create DB                          | {}
+ postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+
+postgres=# \d
+               List of relations
+ Schema |      Name       |   Type   |  Owner
+--------+-----------------+----------+----------
+ public | posts           | table    | postgres
+ public | posts_id_seq    | sequence | postgres
+ public | sessions        | table    | postgres
+ public | sessions_id_seq | sequence | postgres
+ public | threads         | table    | postgres
+ public | threads_id_seq  | sequence | postgres
+ public | users           | table    | postgres
+ public | users_id_seq    | sequence | postgres
+(8 rows)
+
+
+postgres=# \d users
+                                        Table "public.users"
+   Column   |            Type             | Collation | Nullable |              Default
+------------+-----------------------------+-----------+----------+-----------------------------------
+ id         | integer                     |           | not null | nextval('users_id_seq'::regclass)
+ uuid       | character varying(64)       |           | not null |
+ name       | character varying(255)      |           |          |
+ email      | character varying(255)      |           | not null |
+ password   | character varying(255)      |           | not null |
+ created_at | timestamp without time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+    "users_email_key" UNIQUE CONSTRAINT, btree (email)
+    "users_uuid_key" UNIQUE CONSTRAINT, btree (uuid)
+Referenced by:
+    TABLE "posts" CONSTRAINT "posts_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+    TABLE "sessions" CONSTRAINT "sessions_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+    TABLE "threads" CONSTRAINT "threads_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+
+
+postgres=# select * from users
+postgres-# ;
+ id | uuid | name | email | password | created_at
+----+------+------+-------+----------+------------
+(0 rows)
+
+
+postgres=# select * from sessions;
+ id | uuid | email | user_id | created_at
+----+------+-------+---------+------------
+(0 rows)
+
+
+postgres=# \dt
+          List of relations
+ Schema |   Name   | Type  |  Owner
+--------+----------+-------+----------
+ public | posts    | table | postgres
+ public | sessions | table | postgres
+ public | threads  | table | postgres
+ public | users    | table | postgres
+(4 rows)
+
+
+postgres=# \d users;
+                                        Table "public.users"
+   Column   |            Type             | Collation | Nullable |              Default
+------------+-----------------------------+-----------+----------+-----------------------------------
+ id         | integer                     |           | not null | nextval('users_id_seq'::regclass)
+ uuid       | character varying(64)       |           | not null |
+ name       | character varying(255)      |           |          |
+ email      | character varying(255)      |           | not null |
+ password   | character varying(255)      |           | not null |
+ created_at | timestamp without time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+    "users_email_key" UNIQUE CONSTRAINT, btree (email)
+    "users_uuid_key" UNIQUE CONSTRAINT, btree (uuid)
+Referenced by:
+    TABLE "posts" CONSTRAINT "posts_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+    TABLE "sessions" CONSTRAINT "sessions_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+    TABLE "threads" CONSTRAINT "threads_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+
+
+postgres=# \di
+                    List of relations
+ Schema |       Name        | Type  |  Owner   |  Table
+--------+-------------------+-------+----------+----------
+ public | posts_pkey        | index | postgres | posts
+ public | posts_uuid_key    | index | postgres | posts
+ public | sessions_pkey     | index | postgres | sessions
+ public | sessions_uuid_key | index | postgres | sessions
+ public | threads_pkey      | index | postgres | threads
+ public | threads_uuid_key  | index | postgres | threads
+ public | users_email_key   | index | postgres | users
+ public | users_pkey        | index | postgres | users
+ public | users_uuid_key    | index | postgres | users
+(9 rows)
+
+
+postgres=# \l
+                                        List of databases
+   Name    |  Owner   | Encoding |      Collate      |       Ctype       |   Access privileges
+-----------+----------+----------+-------------------+-------------------+-----------------------
+ chitchat  | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 |
+ postgres  | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 |
+ template0 | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 | =c/postgres          +
+           |          |          |                   |                   | postgres=CTc/postgres
+ template1 | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 | =c/postgres          +
+           |          |          |                   |                   | postgres=CTc/postgres
+(4 rows)
+
+
+postgres=# use chitchat;
+2019-05-17 09:09:42.233 GMT [13716] ERROR:  syntax error at or near "use" at character 1
+2019-05-17 09:09:42.233 GMT [13716] STATEMENT:  use chitchat;
+ERROR:  syntax error at or near "use"
+LINE 1: use chitchat;
+        ^
+postgres=# select pg_database_size('chitchat');
+ pg_database_size
+------------------
+          8204959
+(1 row)
+
+
+postgres=# select pg_database.datname, pg_database_size(pg_database.datname);
+2019-05-17 09:11:50.933 GMT [13716] ERROR:  missing FROM-clause entry for table "pg_database" at character 8
+2019-05-17 09:11:50.933 GMT [13716] STATEMENT:  select pg_database.datname, pg_database_size(pg_database.datname);
+ERROR:  missing FROM-clause entry for table "pg_database"
+LINE 1: select pg_database.datname, pg_database_size(pg_database.dat...
+               ^
+postgres=# \d
+               List of relations
+ Schema |      Name       |   Type   |  Owner
+--------+-----------------+----------+----------
+ public | posts           | table    | postgres
+ public | posts_id_seq    | sequence | postgres
+ public | sessions        | table    | postgres
+ public | sessions_id_seq | sequence | postgres
+ public | threads         | table    | postgres
+ public | threads_id_seq  | sequence | postgres
+ public | users           | table    | postgres
+ public | users_id_seq    | sequence | postgres
+(8 rows)
+
+
+postgres=# \d users;
+                                        Table "public.users"
+   Column   |            Type             | Collation | Nullable |              Default
+------------+-----------------------------+-----------+----------+-----------------------------------
+ id         | integer                     |           | not null | nextval('users_id_seq'::regclass)
+ uuid       | character varying(64)       |           | not null |
+ name       | character varying(255)      |           |          |
+ email      | character varying(255)      |           | not null |
+ password   | character varying(255)      |           | not null |
+ created_at | timestamp without time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+    "users_email_key" UNIQUE CONSTRAINT, btree (email)
+    "users_uuid_key" UNIQUE CONSTRAINT, btree (uuid)
+Referenced by:
+    TABLE "posts" CONSTRAINT "posts_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+    TABLE "sessions" CONSTRAINT "sessions_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+    TABLE "threads" CONSTRAINT "threads_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+
+
+postgres=# select pg_relation_size('users');
+ pg_relation_size
+------------------
+                0
+(1 row)
+
+
+postgres=# select pg_relation_size('threads');
+ pg_relation_size
+------------------
+                0
+(1 row)
+
+
+postgres=# \l
+                                        List of databases
+   Name    |  Owner   | Encoding |      Collate      |       Ctype       |   Access privileges
+-----------+----------+----------+-------------------+-------------------+-----------------------
+ chitchat  | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 |
+ postgres  | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 |
+ template0 | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 | =c/postgres          +
+           |          |          |                   |                   | postgres=CTc/postgres
+ template1 | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 | =c/postgres          +
+           |          |          |                   |                   | postgres=CTc/postgres
+(4 rows)
+
+
+postgres=# \c postgres
+Password for user postgres:
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+You are now connected to database "postgres" as user "postgres".
+postgres=# \d
+               List of relations
+ Schema |      Name       |   Type   |  Owner
+--------+-----------------+----------+----------
+ public | posts           | table    | postgres
+ public | posts_id_seq    | sequence | postgres
+ public | sessions        | table    | postgres
+ public | sessions_id_seq | sequence | postgres
+ public | threads         | table    | postgres
+ public | threads_id_seq  | sequence | postgres
+ public | users           | table    | postgres
+ public | users_id_seq    | sequence | postgres
+(8 rows)
+
+
+postgres=# \d users;
+                                        Table "public.users"
+   Column   |            Type             | Collation | Nullable |              Default
+------------+-----------------------------+-----------+----------+-----------------------------------
+ id         | integer                     |           | not null | nextval('users_id_seq'::regclass)
+ uuid       | character varying(64)       |           | not null |
+ name       | character varying(255)      |           |          |
+ email      | character varying(255)      |           | not null |
+ password   | character varying(255)      |           | not null |
+ created_at | timestamp without time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+    "users_email_key" UNIQUE CONSTRAINT, btree (email)
+    "users_uuid_key" UNIQUE CONSTRAINT, btree (uuid)
+Referenced by:
+    TABLE "posts" CONSTRAINT "posts_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+    TABLE "sessions" CONSTRAINT "sessions_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+    TABLE "threads" CONSTRAINT "threads_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+
+
+postgres=# select pg_relation_size('users');
+ pg_relation_size
+------------------
+                0
+(1 row)
+
+
+postgres=# \l
+                                        List of databases
+   Name    |  Owner   | Encoding |      Collate      |       Ctype       |   Access privileges
+-----------+----------+----------+-------------------+-------------------+-----------------------
+ chitchat  | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 |
+ postgres  | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 |
+ template0 | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 | =c/postgres          +
+           |          |          |                   |                   | postgres=CTc/postgres
+ template1 | postgres | UTF8     | Chinese_China.936 | Chinese_China.936 | =c/postgres          +
+           |          |          |                   |                   | postgres=CTc/postgres
+(4 rows)
+
+
+postgres=# \c chitchat;
+Password for user postgres:
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+You are now connected to database "chitchat" as user "postgres".
+chitchat=# \dt
+          List of relations
+ Schema |   Name   | Type  |  Owner
+--------+----------+-------+----------
+ public | posts    | table | postgres
+ public | sessions | table | postgres
+ public | threads  | table | postgres
+ public | users    | table | postgres
+(4 rows)
+
+
+chitchat=# \d
+               List of relations
+ Schema |      Name       |   Type   |  Owner
+--------+-----------------+----------+----------
+ public | posts           | table    | postgres
+ public | posts_id_seq    | sequence | postgres
+ public | sessions        | table    | postgres
+ public | sessions_id_seq | sequence | postgres
+ public | threads         | table    | postgres
+ public | threads_id_seq  | sequence | postgres
+ public | users           | table    | postgres
+ public | users_id_seq    | sequence | postgres
+(8 rows)
+
+
+chitchat=# select pg_relation_size('users');
+ pg_relation_size
+------------------
+             8192
+(1 row)
+
+
+chitchat=# \d users;
+                                        Table "public.users"
+   Column   |            Type             | Collation | Nullable |              Default
+------------+-----------------------------+-----------+----------+-----------------------------------
+ id         | integer                     |           | not null | nextval('users_id_seq'::regclass)
+ uuid       | character varying(64)       |           | not null |
+ name       | character varying(255)      |           |          |
+ email      | character varying(255)      |           | not null |
+ password   | character varying(255)      |           | not null |
+ created_at | timestamp without time zone |           | not null |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+    "users_email_key" UNIQUE CONSTRAINT, btree (email)
+    "users_uuid_key" UNIQUE CONSTRAINT, btree (uuid)
+Referenced by:
+    TABLE "posts" CONSTRAINT "posts_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+    TABLE "sessions" CONSTRAINT "sessions_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+    TABLE "threads" CONSTRAINT "threads_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+
+
+chitchat=# help
+You are using psql, the command-line interface to PostgreSQL.
+Type:  \copyright for distribution terms
+       \h for help with SQL commands
+       \? for help with psql commands
+       \g or terminate with semicolon to execute query
+       \q to quit
+chitchat=# \?
+General
+  \copyright             show PostgreSQL usage and distribution terms
+  \crosstabview [COLUMNS] execute query and display results in crosstab
+  \errverbose            show most recent error message at maximum verbosity
+  \g [FILE] or ;         execute query (and send results to file or |pipe)
+  \gdesc                 describe result of query, without executing it
+  \gexec                 execute query, then execute each value in its result
+  \gset [PREFIX]         execute query and store results in psql variables
+  \gx [FILE]             as \g, but forces expanded output mode
+  \q                     quit psql
+  \watch [SEC]           execute query every SEC seconds
+
+Help
+  \? [commands]          show help on backslash commands
+  \? options             show help on psql command-line options
+  \? variables           show help on special variables
+  \h [NAME]              help on syntax of SQL commands, * for all commands
+
+Query Buffer
+  \e [FILE] [LINE]       edit the query buffer (or file) with external editor
+  \ef [FUNCNAME [LINE]]  edit function definition with external editor
+  \ev [VIEWNAME [LINE]]  edit view definition with external editor
+  \p                     show the contents of the query buffer
+  \r                     reset (clear) the query buffer
+  \w FILE                write query buffer to file
+
+Input/Output
+  \copy ...              perform SQL COPY with data stream to the client host
+  \echo [STRING]         write string to standard output
+  \i FILE                execute commands from file
+  \ir FILE               as \i, but relative to location of current script
+  \o [FILE]              send all query results to file or |pipe
+  \qecho [STRING]        write string to query output stream (see \o)
+
+Conditional
+  \if EXPR               begin conditional block
+  \elif EXPR             alternative within current conditional block
+  \else                  final alternative within current conditional block
+  \endif                 end conditional block
+
+Informational
+  (options: S = show system objects, + = additional detail)
+  \d[S+]                 list tables, views, and sequences
+  \d[S+]  NAME           describe table, view, sequence, or index
+  \da[S]  [PATTERN]      list aggregates
+  \dA[+]  [PATTERN]      list access methods
+  \db[+]  [PATTERN]      list tablespaces
+  \dc[S+] [PATTERN]      list conversions
+  \dC[+]  [PATTERN]      list casts
+  \dd[S]  [PATTERN]      show object descriptions not displayed elsewhere
+  \dD[S+] [PATTERN]      list domains
+  \ddp    [PATTERN]      list default privileges
+  \dE[S+] [PATTERN]      list foreign tables
+  \det[+] [PATTERN]      list foreign tables
+  \des[+] [PATTERN]      list foreign servers
+  \deu[+] [PATTERN]      list user mappings
+  \dew[+] [PATTERN]      list foreign-data wrappers
+  \df[anptw][S+] [PATRN] list [only agg/normal/procedures/trigger/window] functions
+  \dF[+]  [PATTERN]      list text search configurations
+  \dFd[+] [PATTERN]      list text search dictionaries
+  \dFp[+] [PATTERN]      list text search parsers
+  \dFt[+] [PATTERN]      list text search templates
+  \dg[S+] [PATTERN]      list roles
+  \di[S+] [PATTERN]      list indexes
+  \dl                    list large objects, same as \lo_list
+  \dL[S+] [PATTERN]      list procedural languages
+  \dm[S+] [PATTERN]      list materialized views
+  \dn[S+] [PATTERN]      list schemas
+  \do[S]  [PATTERN]      list operators
+  \dO[S+] [PATTERN]      list collations
+  \dp     [PATTERN]      list table, view, and sequence access privileges
+  \drds [PATRN1 [PATRN2]] list per-database role settings
+  \dRp[+] [PATTERN]      list replication publications
+  \dRs[+] [PATTERN]      list replication subscriptions
+  \ds[S+] [PATTERN]      list sequences
+  \dt[S+] [PATTERN]      list tables
+  \dT[S+] [PATTERN]      list data types
+  \du[S+] [PATTERN]      list roles
+  \dv[S+] [PATTERN]      list views
+  \dx[+]  [PATTERN]      list extensions
+  \dy     [PATTERN]      list event triggers
+  \l[+]   [PATTERN]      list databases
+  \sf[+]  FUNCNAME       show a function's definition
+  \sv[+]  VIEWNAME       show a view's definition
+  \z      [PATTERN]      same as \dp
+
+Formatting
+  \a                     toggle between unaligned and aligned output mode
+  \C [STRING]            set table title, or unset if none
+  \f [STRING]            show or set field separator for unaligned query output
+  \H                     toggle HTML output mode (currently off)
+  \pset [NAME [VALUE]]   set table output option
+                         (NAME := {border|columns|expanded|fieldsep|fieldsep_zero|
+                         footer|format|linestyle|null|numericlocale|pager|
+                         pager_min_lines|recordsep|recordsep_zero|tableattr|title|
+                         tuples_only|unicode_border_linestyle|
+                         unicode_column_linestyle|unicode_header_linestyle})
+  \t [on|off]            show only rows (currently off)
+  \T [STRING]            set HTML <table> tag attributes, or unset if none
+  \x [on|off|auto]       toggle expanded output (currently off)
+
+Connection
+  \c[onnect] {[DBNAME|- USER|- HOST|- PORT|-] | conninfo}
+                         connect to new database (currently "chitchat")
+  \conninfo              display information about current connection
+  \encoding [ENCODING]   show or set client encoding
+  \password [USERNAME]   securely change the password for a user
+
+Operating System
+  \cd [DIR]              change the current working directory
+  \setenv NAME [VALUE]   set or unset environment variable
+  \timing [on|off]       toggle timing of commands (currently off)
+  \! [COMMAND]           execute command in shell or start interactive shell
+
+Variables
+  \prompt [TEXT] NAME    prompt user to set internal variable
+  \set [NAME [VALUE]]    set internal variable, or list all if no parameters
+  \unset NAME            unset (delete) internal variable
+
+Large Objects
+  \lo_export LOBOID FILE
+  \lo_import FILE [COMMENT]
+  \lo_list
+  \lo_unlink LOBOID      large object operations
+
+chitchat=#
+chitchat=#
+chitchat=#
+chitchat=#
+chitchat=# \db
+       List of tablespaces
+    Name    |  Owner   | Location
+------------+----------+----------
+ pg_default | postgres |
+ pg_global  | postgres |
+(2 rows)
+
+
+chitchat=# \d
+               List of relations
+ Schema |      Name       |   Type   |  Owner
+--------+-----------------+----------+----------
+ public | posts           | table    | postgres
+ public | posts_id_seq    | sequence | postgres
+ public | sessions        | table    | postgres
+ public | sessions_id_seq | sequence | postgres
+ public | threads         | table    | postgres
+ public | threads_id_seq  | sequence | postgres
+ public | users           | table    | postgres
+ public | users_id_seq    | sequence | postgres
+(8 rows)
+
+
+chitchat=# \dt
+          List of relations
+ Schema |   Name   | Type  |  Owner
+--------+----------+-------+----------
+ public | posts    | table | postgres
+ public | sessions | table | postgres
+ public | threads  | table | postgres
+ public | users    | table | postgres
+(4 rows)
+
+
+chitchat=# select * from users;
+ id |                 uuid                 |   name    |     email      |                 password                 |         created_at
+----+--------------------------------------+-----------+----------------+------------------------------------------+----------------------------
+  1 | 2a0ab4af-faab-4dae-5c40-b075a8f5af44 | edwardliu | edward@163.com | d033e22ae348aeb5660fc2140aec35850c4da997 | 2019-05-17 10:43:08.872771
+(1 row)
+
+
+chitchat=#
+
+chitchat=# select * from sessions;
+ id |                 uuid                 |     email      | user_id |         created_at
+----+--------------------------------------+----------------+---------+----------------------------
+  1 | 187d5a63-6212-4b9e-5506-7bae5f419e64 | edward@163.com |       1 | 2019-05-17 10:43:11.799011
+(1 row)
+
+
+chitchat=# \dt
+          List of relations
+ Schema |   Name   | Type  |  Owner
+--------+----------+-------+----------
+ public | posts    | table | postgres
+ public | sessions | table | postgres
+ public | threads  | table | postgres
+ public | users    | table | postgres
+(4 rows)
+
+
+chitchat=# select * from threads;
+ id |                 uuid                 |    topic     | user_id |         created_at
+----+--------------------------------------+--------------+---------+----------------------------
+  1 | fa8b0dc3-dc7e-4de6-72a2-d0b4d33b7f70 | Hi ChitChat  |       1 | 2019-05-17 10:43:38.068994
+  2 | 395475b3-e704-4eda-4b58-51beb5792bb8 | Htotooot     |       1 | 2019-05-17 10:44:54.669971
+  3 | 9733a0b0-c03b-42e7-659b-1fd7fe544651 | Denny\r     +|       1 | 2019-05-17 10:54:53.607588
+    |                                      |              |         |
+(3 rows)
+
+
+chitchat=#
+
+
+
+

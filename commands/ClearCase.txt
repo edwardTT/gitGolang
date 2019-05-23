@@ -1,0 +1,436 @@
+查看该元素的修改历史纪录	
+cleartool lshistory diag_emi.c	
+	
+查看该元素的版本变迁描述	
+cleartool describe diag_emi.c	
+	
+清理编译临时文件等，在/vobs/projects/springboard/make	
+make distclean 	
+	
+按编译/编辑环境刷新视图	refresh_view
+使用refresh_view -rci 将config spec的时间点设置为最新check in code时间之前
+使用refresh_view -edit 编辑文件前执行，将config spec的时间点设置为最新LATEST
+使用refresh_view -build 编译文件前执行，将config spec的时间点设置为执行refresh_view -build之前
+
+在设置视图后，在/vobs/projects/springboard/make执行以下脚本	
+emake_wrapper   提交服务器编译完整版本,diag只能在hq1-up-swe-xx上面执行
+emake_wrapper BD=71   提交服务器编译对应BD版本,生成的文件在/vobs/projects/springboard/build/swbd71/dist	
+emake_wrapper BD=71 DISTDIR=$distdir FABOSRELEASEID=$releasename    指定打包目录,文件名, 提交服务器编译对应BD版本,并在指定目录打包	
+emake_wrapper BD=71 DISTDIR=$distdir FABOSRELEASEID=$releasename dist  指定打包目录,文件名, 并且只打包	
+BD=71;很多Embedded产品,kestrel2,3 falcon3, qilin, redbrid, graphite	
+BD=141;Yoda	
+BD=62;Zentron
+BD=156; redbrid
+	
+在执行过emake_wrapper后，可在以下build目录使用make编译nfdiag(本地编译,不提交编译服务器处理)	
+/vobs/projects/springboard/build/swbd71/fabos/src/diag/neptune/diagmain/	
+
+Rigel产品需要打包的文件如下
+cp -R SWBD131 SWBD137 SWBD138 SWBD151 SWBD153 SWBD154 app_names install install_verify platform_names pubkey.pem signature.tar signature.tar.sig signature2.tar signature2.tar.sig yang.tar.gz
+	，视图文件在网络文件服务器上。
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~view~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+1、创建view
+makeview -pattern v7.2.0_fuj_rel	
+2、去使能view
+ct endview common_view
+ct endview -server user-name_view
+Deactivate a Clearcase view. (First exit view)
+Useful if you get stale NFS handles.
+3、删除view
+cleartool rmview -f -tag <view_tag>
+删除视图，要在每一个终端上执行endview ，然后执行以下指令：	
+ct rmview -f  -tag zheng_v7.2.0_fuj_rel_01	
+	
+检视当前有多少视图，前面有*号的表示该视图是活动的，即在某终端的/view下还有标签	
+cleartool lsview | grep zheng	
+	
+Additionally, please review all your views and the last time they were accessed directly using any ClearCase client host.	
+Please clean up any of these views that are no longer needed.	
+You can find this information by running:	
+/opt/rational/clearcase/bin/cleartool lsview -age "zheng*"
+	
+开始视图，会在主机上维护一个view_server的进程，可以通过视图扩展路径访问该视图，即/view/zheng_v7.2.0_fuj_rel_01
+cleartool startveiw zheng_v7.2.0_fuj_rel_01
+	
+设置视图，会创建一个子进程，按照配置规格导入VOB绝对路径，同时也会执行startview
+cleartool setveiw zheng_v7.2.0_fuj_rel_01	
+	
+添加元素,使用以下指令
+ct mkelem	
+[username_view]node-name:(username)sub-directory> ct co -nc .
+[username_view]node-name:(username)sub-directory> cp /..../new-file ./
+[username_view]node-name:(username)sub-directory> ct mkelem -ci -nc new-file[username_view]node-name:(username)sub-directory> ct ci -nc .	
+
+签出元素，文件/目录	
+cleartool co -nc	
+	
+签入元素，文件/目录	
+cleartool ci -nc	
+现在一律使用ttrci -task xx.c xx.h xxx.c	
+
+
+在TASK ID处填写板卡名称	
+	
+取消签出元素，文件/目录	
+cleartool unco|uncheckout	
+
+取消签出所有元素，文件/目录
+cleartool unco|uncheckout	| 
+
+check in codes command.
+ct lsco -cview -s -avobs | xargs rci -task
+
+新的checkin方法在nfosdiag构架下。 注意·符号和~
+/corp/global/tools/bin/Ttrci.ushastri.multgr/ttrci -task `ct lsco -cview -s -avobs`
+
+
+从其他版本merge过来：
+cleartool findmerge /vobs/projects/springboard/fabos/src/diag/mfgdiag/platform/alletor/anakin/anakin_table.c  -fver  /main/fos_c4_plus_platform_dev/7         -log /dev/null -merge –nc
+
+Need merge file  <----- This is source file.
+
+检视签出的文件	
+blc-10-4{245}: ct help lsco
+Usage: lscheckout | lsco [-long | -short | -fmt format] [-cview]
+                         [-brtype branch-type-selector] [-me | -user login-name]
+                         [-recurse | -directory | -all | -avobs ] [-areplicas]
+                         [pname ...]
+
+-short 可以只显示checkout的完整路径，不显示版本等信息。
+
+blc-10-4{246}: ct lsco -cview -avobs -short
+/vobs/projects/springboard/fabos/src/diag/neptune/fos/diag_entry.c
+/vobs/projects/springboard/fabos/src/diag/neptune/fos/fos_diag_common.c
+
+使用这个命令可以把check out 文件的完整路径打印出来。
+cleartool lsco -cview -s -all
+	
+结束一个视图,要确保没有进程和用户在使用该视图，然后在一个终端上执行(否则要重新设置视图再结束):(使用-server结束所有进程)	
+ct endview -server zheng_v7.2.0_fuj_rel_01	
+	
+
+	
+完整路径名只在设置视图上下文中有效	
+	
+设置视图上下文和工作目录视图上下文	
+	
+SWBD BLADE_ID头文件	
+/vobs/projects/springboard/common_src/fos/common/include/fos_swbd.h
+	
+emake_wrapper 脚本位置
+/departments/sre/Builds/Scripts
+
+编译u-Boot的流程，以Mecury（SWBD1000）为例
+1.先在/vobs/projects/springboard/make执行emake_wrapper BD=1000产生相关文件链接
+2.在/vobs/projects/springboard/build/swbd1000/make下执行emake_wrapper prom_build_p40x0|prom_build_p3041
+3.binary file 產生在 /vobs/projects/springboard/build/swbd1000/prom/u_boot_2010_07
+4.entire_bootflash_image.bin是完整版(4M)烧录文件，fman_ucode_then_u-boot.bin是简化版(640k)烧录文件，仅debug使用。	
+5.编译440的CPU在/vobs/projects/springboard/prom/u_boot，使用blc-10-6即可，在hq1-up-swe-13上反而会失败（zero entry point）:
+make distclean; make BRCD440EPX_config; make clean;make // 这个是440的CPU
+
+使用mkprom制作不含env的u_boot和含env的u_boot  // 使用相应脚本填充数据达到4M bytes大小。
+	
+查看配置文件	
+ct catcs
+configuration spec at 	
+/scm_env_metadata/products/dev/fos/branches/view_name/view_config_spec.txt
+Redbird cs:
+/scm_env_metadata/products/dev/fos/branches/v7.3.0_hur_rel/view_config_spec.txt
+
+	
+修改配置文件	
+ct edcs	
+	
+	
+签出fos_swbd.h后,发现其自动更新为最新的版本	
+cleartool: Warning: Version checked out ("/main/115") is different from version selected by view before checkout ("/main/89").	
+Checked out "fos_swbd.h" from version "/main/115".	
+	
+为什么在Kestrel3中可以mkelem而在bulova2中不可以，提示
+Warning: You are about to create an evil twin for diag_falcon3_cpld.c This information dialog provides detail steps to enable you to avoid this highly undesirable situation.	
+	
+The following commands must be executed by the user zheng. Please do not submit a ccadmin ticket unless you have followed all the instructions specified here.	
+	
+The contents of this dialog prompt are also emailed to zheng@brocade.com to enable you to cut and paste the following commands.	
+	
+The element diag_falcon3_cpld.c	
+already exists in the directory	
+/vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diagswbd at	
+	
+/vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diagswbd@@/main/v7.2.0_falcon3_dev/1/diag_falcon3_cpld.c	
+	
+	
+In order to restore a directory entry for an element that is not visible in your current view, please use the cleartool ln command to create a VOB hard link to the element's entry in a pre-existing version of the directory	
+	
+1. Checkout the parent directory if it is not already checked out.	
+   cleartool co -nc /vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diagswbd	
+2. Create a link.	
+   cleartool ln /vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diagswbd@@/main/v7.2.0_falcon3_dev/1/diag_falcon3_cpld.c /vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diagswbd/diag_falcon3_cpld.c	
+3. Element diag_falcon3_cpld.c will now be visible. Please check it out and	
+   modify it as needed	
+4. Check in the parent dir /vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diagswbd and diag_falcon3_cpld.c	
+   Use RCI if it is enforced for this branch.	
+	
+To learn more about evil twins, please refer to SPRE FAQ	
+http://srefaq/questions/122	
+	
+	
+How do I remove corrupted views in UNIX, Linux and Xen system? 	
+A view can be corrupted due to the following few reasons:	
+1. Interrupting a cleartool rmview process 	
+2. Trying to remove a view if the view server partition is 100% full will render it inaccessible.	
+	
+For eg:	
+	
+	
+	
+ct rmview -f -tag <user>_nos_leo_dev_01	
+	
+cleartool: Error: Unable to open file 	
+/net/ccvw11/vws1/<user>_nos_leo_dev_01.vws/.view": No such file or directory.	
+cleartool: Error: /net/ccvw11/vws1/<user>_nos_leo_dev_01.vws isn't a view: No such file or directory	
+cleartool: Error: Unable to remove view "/net/ccvw11/vws1/<user>_nos_leo_dev_01.vws".	
+	
+To remove a corrupted dynamic view in UNIX, Linux and Xen system, follow the procedure below.	
+	
+	
+1.    You need to be the view owner to remove your own view.	
+Obtain the UUID associated with the corrupted view and note the UUID. Enter the following command, to display view UUID.	
+	
+$ ct lsview -long <view_tag> 	
+	
+i.e.,	
+$ ct lsview -long boylet_v6.0.0_pit_01 	
+	
+Tag: boylet_v6.0.0_pit_01	
+Global path: /net/ccvw2/vws2/boylet_v6.0.0_pit_01.vws	
+Server host: ccvw2	
+Region: sjcunx_all_vobs	
+Active: NO	
+View tag uuid:	
+2811841b.237f11dc.9383.00:0f:1f:f9:00:ae	
+View export ID (registry): 1151	
+View on host: ccvw2	
+View server access path: /vws2/boylet_v6.0.0_pit_01.vws	
+View uuid: 2811841b.237f11dc.9383.00:0f:1f:f9:00:ae	
+View owner: brocade.com/boylet	
+	
+2.    Remove the view tag. Execute the following command to remove the view tag.	
+	
+$ ct rmtag -all -view <view_tag>	
+	
+i.e.,	
+	
+ct rmtag -all -view boylet_v6.0.0_pit_01	
+	
+3.    Unregister the corrupted view from ClearCase registry.  Enter the following command to ensure that the view has already been unregistered. If already done, skip to the next step.	
+	
+$ ct unregister –view –uuid <view uuid)	
+	
+i.e.,	
+	
+ct unregister –view –uuid 2811841b.237f11dc.9383.00:0f:1f:f9:00:ae	
+	
+4.    Remove the view storage directory using the following command.	
+	
+$ /bin/rm –rf <Global path>	
+	
+i.e.,	
+	
+/bin/rm –rf /net/ccvw2/vws2/boylet_v6.0.0_pit_01.vws	
+	
+5.    Enter the following command and confirm if the view has been removed.	
+	
+$ ls -al 	
+	
+ To remove a corrupted snapshot view(for e.g., swrel_cpba3.0.0.0_bobcat_cpba_rel_20110218_1224_s) in UNIX, Linux and Xen system, execute the following commands.	
+	
+	
+$ ct lsview swrel_cpba3.0.0.0_bobcat_cpba_rel_20110218_1224_s 	
+	
+swrel_cpba2.2.0.0_caracal_cpba_rel_20100505_0605_s /net/sj-hbabld-01/vws1/swrel_cpba2.2.0.0_caracal_cpba_rel_20100505_0605_s.vws	
+	
+ 	
+	
+$ ct rmview /net/sj-hbabld-01/vws1/swrel_cpba2.2.0.0_caracal_cpba_rel_20100505_0605_s.vws	
+
+
+10.目录解释
+make文件，添加编译支持REDBIRD_U_BOOT_2014_COMPILE_SUPPORT
+/vobs/projects/springboard/make/SRE_Targets.make
+/vobs/projects/springboard/make/products/SWBD156.make
+
+系统ASIC HAL
+/vobs/projects/springboard/fabos/src/sys/dev/asic
+
+Diag模块文件
+/vobs/projects/springboard/fabos/src/diag/common/modules
+
+U-Boot Bin文件放置位置
+/vobs/projects/springboard/boot/u-boot
+同时需要看下这个文件
+/vobs/projects/springboard/dist/scripts/prom-40x0.idb.in
+
+11.Neptune Diag项目一般要修改以下文件	
+/vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diag_common.c	
+/vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diag_config.c	
+/vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diag_emi.c	
+/vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diag_i2c.c	
+/vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diag_jtagpgm.c	
+/vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diag_main_cmd.c	
+/vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diag_minicycle.c	
+/vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diag_portledtest.c	
+/vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diag_version.c	
+/vobs/projects/springboard/fabos/src/diag/neptune/diagmain/embedded_common.c	
+	
+/vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diagasic/diag_asic.c	
+/vobs/projects/springboard/fabos/src/diag/neptune/include/	
+/vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diagswbd	
+/vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diagswbd/Makefile	
+/vobs/projects/springboard/fabos/src/diag/neptune/diagmain/diagswbd/diag_swbd_dcx_common.c	
+       
+/vobs/projects/springboard/fabos/src/diag/neptune/include/diag_cmd.h	
+/vobs/projects/springboard/fabos/src/diag/neptune/include/diag_common.h	
+/vobs/projects/springboard/fabos/src/diag/neptune/include/embedded_common.h	
+	
+/vobs/projects/springboard/fabos/src/diag/neptune/scripts/diagburnin.sh	
+/vobs/projects/springboard/fabos/src/diag/neptune/scripts/dscript.sh.in	
+	
+	
+/vobs/projects/springboard/fabos/src/diag/neptune/fos/diag_main.h	
+/vobs/projects/springboard/fabos/src/diag/neptune/share/diag_share.c	
+
+12.什么时候需要使用refresh_view
+Invalid config spec rules for branch "nos_rigel_sw_dev"
+        in view "zheng_nos_rigel_sw_dev_02".
+        The following config spec rule(s) with fixed time-stamps or labels
+        -------------------------------------------------------------
+        element * .../nos_rigel_sw_dev/{!created_since(11-Jul-2014.21:45)&&!version(.../nos_rigel_sw_dev/0)}
+        -------------------------------------------------------------
+        will cause any new versions checked in using this view to be
+        renderred invisible as soon as they are checked in.
+        SOLUTION:
+        Please update your view using "refresh_view -edit" before attempting
+        this RCI transaction again. You can then restore the previous
+        config spec by running "refresh_view -previous" if necessary.
+
+Usage for comparing current cpecs to makeview template
+/view/sreadm_makeview_vu/vobs/multisite/sreglobal/bin/srtrefresh_view -diff_only [-view <view_tag>]
+
+Usage for reverting to the config specs that were in effect prior to
+last invocation of refresh_view on this view
+/view/sreadm_makeview_vu/vobs/multisite/sreglobal/bin/srtrefresh_view -previous [-view <view_tag>]
+
+Usage for just echoing the cspecs instead of setting them
+/view/sreadm_makeview_vu/vobs/multisite/sreglobal/bin/srtrefresh_view -echo_only [-view <view_tag>] [-edit | -rci | -build [time] | -sanity]
+
+Usage for just echoing the branch name from the view tag name
+/view/sreadm_makeview_vu/vobs/multisite/sreglobal/bin/srtrefresh_view -echo_only [-view <view_tag>] -get_branch_id
+
+Examples:
+-----------------------------------------------------------
+to refresh this view when default config specs associated
+with this development branch,
+
+refresh_view [-view <view_tag>]
+-----------------------------------------------------------
+To use your view for editing (checkin/checkout) please use,
+
+refresh_view [-view <view_tag>] -edit
+-----------------------------------------------------------
+To use your view for builds, (i.e., to avoid any checkins
+made after a certain time to impact the build results and
+to exclude zero versions) please run,
+
+refresh_view [-view <view_tag>] -build
+-----------------------------------------------------------
+To specify some time (other than the current time),
+please use
+
+refresh_view [-view <view_tag>] -build dd-Mon-YYYY.HH:MM
+-----------------------------------------------------------
+For branches with CI_TIME feature enabled, you can use
+
+refresh_view [-view <view_tag>] -rci
+
+to set your view to a safe time when last non-concurrent
+RCI transaction was completed. This feature enables
+engineers to build and test their view private changes
+against the latest available safe changes checked in.
+-----------------------------------------------------------
+To set your view config specs to the latest good build that
+has passed FVT Sanity checks, please run:
+
+refresh_view -sanity
+
+-sanity option is only supported for branches that refresh
+the symlink to a good known build qualified by FVT
+Please refer to the following FAQ for more information on
+initial setup:
+http://activekb-vm.brocade.com/?q=781
+-----------------------------------------------------------
+13. 创建新的文件。
+ ct co -nc .
+ cp /..../new-file ./
+ ct mkelem -ci -nc new-file
+ ct ci -nc .
+ 
+14. 创建新的文件夹	
+ct co -nc .
+ct mkdir DIRECTORY-NAME
+ct ci -nc .
+...
+Add files to directory.
+... 
+ct ci -nc DIRECTORY-NAME	
+//////////////////////////////////////A easy way to copy code from others view/////////////////////////////////////////////////////////
+不同view之间快速移植：
+#15 blc-10-6) cleartool setview fenly_mercury_prom_dev_01ls
+#16 blc-10-6) ct setview edward_mercury_prom_dev_03 
+#17 blc-10-6) ctmyco > ~/flist
+#18 blc-10-6) cat ~/flist
+/vobs/projects/springboard/prom/u_boot/drivers/pci.c
+/vobs/projects/springboard/prom/u_boot/drivers/pci_auto.c
+/vobs/projects/springboard/prom/u_boot/include/pci.h
+#19 blc-10-6) cat ~/flist | xargs tar -czf ~/checkout.tar.gz 
+tar: Removing leading `/' from member names
+#20 blc-10-6) exit
+#16 blc-10-6) ct setview edward_mercury_prom_dev_02 
+#21 blc-10-6) cat ~/flist | xargs cleartool co
+Checked out "/vobs/projects/springboard/prom/u_boot/drivers/pci.c" from version "/main/mercury_prom_dev/2".
+Checked out "/vobs/projects/springboard/prom/u_boot/drivers/pci_auto.c" from version "/main/mercury_prom_dev/1".
+Checked out "/vobs/projects/springboard/prom/u_boot/include/pci.h" from version "/main/mercury_prom_dev/1".
+ #22 blc-10-6) tar -xzf ~/checkout.tar.gz -C /
+ 
+ 
+ //////////////////////////////////////TTRCI check in fail
+ Invalid config spec rules for branch "nos_rigel_sw_dev"
+        in view "zheng_nos_rigel_sw_dev_02".
+        The following config spec rule(s) with fixed time-stamps or labels
+        -------------------------------------------------------------
+        element * .../nos_rigel_sw_dev/{!created_since(7-Aug-2014.17:56:45)&&!version(.../nos_rigel_sw_dev/0)}
+        -------------------------------------------------------------
+        will cause any new versions checked in using this view to be
+        renderred invisible as soon as they are checked in.
+        SOLUTION:
+        Please update your view using "refresh_view -edit" before attempting
+        this RCI transaction again. You can then restore the previous
+        config spec by running "refresh_view -previous" if necessary.
+        
+        
+移植Diag需要修改的关键脚本文件
+FPGA file:  /vobs/projects/springboard/fabos/src/diag/mfgdiag/platform/rigel/xsvf/
+
+u-boot file: /vobs/projects/springboard/boot/u-boot/p40x0 
+
+dist scripts: /vobs/projects/springboard/dist/scripts
+nfdiag-mercury.idb.in prom-40x0.idb.in   
+
+package list: /vobs/projects/springboard/dist
+nfdiag.plist.in  
+install--基本是FOS在改
+
+diag scripts: /vobs/projects/springboard/fabos/src/diag/mfgdiag/scripts
+startup run: diagrun 
+need modify: dscript.sh.in diagburnin.sh 

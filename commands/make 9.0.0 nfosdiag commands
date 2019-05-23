@@ -1,0 +1,52 @@
+/zzz/work02/el023144/git_clone/cassian/0412/bsnnfdiag_local_clone_v9.0.0_pit_0412/vobs/projects/springboard
+
+
+cp -r make /zzz/work02/el023144/git_clone/cassian/0412/bsnnfdiag_local_clone_v9.0.0_pit_0412/vobs/projects/springboard
+cp -r dist /zzz/work02/el023144/git_clone/cassian/0412/bsnnfdiag_local_clone_v9.0.0_pit_0412/vobs/projects/springboard
+cp -r common_src/ /zzz/work02/el023144/git_clone/cassian/0412/bsnnfdiag_local_clone_v9.0.0_pit_0412/vobs/projects/springboard
+cp -r linux_plat/ /zzz/work02/el023144/git_clone/cassian/0412/bsnnfdiag_local_clone_v9.0.0_pit_0412/vobs/projects/springboard
+cp -r prom/ /zzz/work02/el023144/git_clone/cassian/0412/bsnnfdiag_local_clone_v9.0.0_pit_0412/vobs/projects/springboard
+cp -r tps/ /zzz/work02/el023144/git_clone/cassian/0412/bsnnfdiag_local_clone_v9.0.0_pit_0412/vobs/projects/springboard
+cp -r build /zzz/work02/el023144/git_clone/cassian/0412/bsnnfdiag_local_clone_v9.0.0_pit_0412/vobs/projects/springboard
+
+cp -r make /zzz/work02/el023144/git_clone/cassian/0412/bsnnfdiag_local_clone_v9.0.0_pit_0412/vobs/projects/springboard;cp -r dist /zzz/work02/el023144/git_clone/cassian/0412/bsnnfdiag_local_clone_v9.0.0_pit_0412/vobs/projects/springboard;cp -r common_src/ /zzz/work02/el023144/git_clone/cassian/0412/bsnnfdiag_local_clone_v9.0.0_pit_0412/vobs/projects/springboard;cp -r linux_plat/ /zzz/work02/el023144/git_clone/cassian/0412/bsnnfdiag_local_clone_v9.0.0_pit_0412/vobs/projects/springboard;cp -r prom/ /zzz/work02/el023144/git_clone/cassian/0412/bsnnfdiag_local_clone_v9.0.0_pit_0412/vobs/projects/springboard;cp -r tps/ /zzz/work02/el023144/git_clone/cassian/0412/bsnnfdiag_local_clone_v9.0.0_pit_0412/vobs/projects/springboard;cp -r build /zzz/work02/el023144/git_clone/cassian/0412/bsnnfdiag_local_clone_v9.0.0_pit_0412/vobs/projects/springboard
+
+
+make -f Makefile.nfosdiag BD=161 slink
+
+/zzz/work02/el023144/git_clone/cassian/0413/bsnnfdiag_v9.0.0_pit/vobs/projects/springboard
+
+/zzz/work02/el023144/git_clone/cassian/0413/bsnnfdiag_v9.0.0_pit/vobs/projects/springboard/build/swbd161/
+cp -r make /zzz/work02/el023144/git_clone/cassian/0413/bsnnfdiag_v9.0.0_pit/vobs/projects/springboard;cp -r dist /zzz/work02/el023144/git_clone/cassian/0413/bsnnfdiag_v9.0.0_pit/vobs/projects/springboard;cp -r common_src/ /zzz/work02/el023144/git_clone/cassian/0413/bsnnfdiag_v9.0.0_pit/vobs/projects/springboard;cp -r linux_plat/ /zzz/work02/el023144/git_clone/cassian/0413/bsnnfdiag_v9.0.0_pit/vobs/projects/springboard;cp -r prom/ /zzz/work02/el023144/git_clone/cassian/0413/bsnnfdiag_v9.0.0_pit/vobs/projects/springboard;cp -r tps/ /zzz/work02/el023144/git_clone/cassian/0413/bsnnfdiag_v9.0.0_pit/vobs/projects/springboard;cp -r build /zzz/work02/el023144/git_clone/cassian/0413/bsnnfdiag_v9.0.0_pit/vobs/projects/springboard;cp -r fos_linux /zzz/work02/el023144/git_clone/cassian/0413/bsnnfdiag_v9.0.0_pit/vobs/projects/springboard
+
+
+cd /zzz/work02/el023144/git_clone/cassian/0413/fos_v9.0.0_dev/vobs/projects/springboard
+
+cp -r make /zzz/work02/el023144/git_clone/cassian/0423/bsnnfdiag_local_clone_v9.0.0_pit_0423/vobs/projects/springboard
+cp -r dist /zzz/work02/el023144/git_clone/cassian/0423/bsnnfdiag_local_clone_v9.0.0_pit_0423/vobs/projects/springboard
+cp -r common_src/ /zzz/work02/el023144/git_clone/cassian/0423/bsnnfdiag_local_clone_v9.0.0_pit_0423/vobs/projects/springboard
+cp -r linux_plat/ /zzz/work02/el023144/git_clone/cassian/0423/bsnnfdiag_local_clone_v9.0.0_pit_0423/vobs/projects/springboard
+cp -r prom/ /zzz/work02/el023144/git_clone/cassian/0423/bsnnfdiag_local_clone_v9.0.0_pit_0423/vobs/projects/springboard
+cp -r tps/ /zzz/work02/el023144/git_clone/cassian/0423/bsnnfdiag_local_clone_v9.0.0_pit_0423/vobs/projects/springboard
+cp -r build /zzz/work02/el023144/git_clone/cassian/0423/bsnnfdiag_local_clone_v9.0.0_pit_0423/vobs/projects/springboard
+
+
+
+cp -r make /zzz/work02/el023144/git_clone/cassian/0423/bsnnfdiag_local_clone_v9.0.0_pit_0423/vobs/projects/springboard;cp -r dist /zzz/work02/el023144/git_clone/cassian/0423/bsnnfdiag_local_clone_v9.0.0_pit_0423/vobs/projects/springboard;cp -r common_src/ /zzz/work02/el023144/git_clone/cassian/0423/bsnnfdiag_local_clone_v9.0.0_pit_0423/vobs/projects/springboard;cp -r linux_plat/ /zzz/work02/el023144/git_clone/cassian/0423/bsnnfdiag_local_clone_v9.0.0_pit_0423/vobs/projects/springboard;cp -r prom/ /zzz/work02/el023144/git_clone/cassian/0423/bsnnfdiag_local_clone_v9.0.0_pit_0423/vobs/projects/springboard;cp -r tps/ /zzz/work02/el023144/git_clone/cassian/0423/bsnnfdiag_local_clone_v9.0.0_pit_0423/vobs/projects/springboard;cp -r build /zzz/work02/el023144/git_clone/cassian/0423/bsnnfdiag_local_clone_v9.0.0_pit_0423/vobs/projects/springboard;
+
+cd vobs/projects/springboard/make;make -f Makefile.nfosdiag BD=161 slink;cd ../build/swbd161/make;/tools/bsnbld/scripts/emake_wrapper.git linux_build;cd ../linux;cp ../linux_2_6_34_tseries/include/generated/autoconf.h include/linux/.; cd ../nfosdiag/src/diag;/tools/bsnbld/scripts/emake_wrapper.git
+
+Make with linux 4.1
+cd vobs/projects/springboard/make;
+make -f Makefile.nfosdiag BD=161 slink;cd ../build/swbd161/make;/tools/bsnbld/scripts/emake_wrapper.git linux_build;cd ../linux;cp ../linux_4_1_35/include/generated/autoconf.h include/linux/.;cd ../nfosdiag/src/diag;/tools/bsnbld/scripts/emake_wrapper.git;cd ../../../dist;make -f Makefile.nfosdiag nfosdiag-gen6;
+
+
+
+
+Gp32
+
+/zzz/work02/el023144/git_clone/gp32/0505/bsnnfdiag_local_clone_v8.2.0_gft_rel/
+cp -r make /zzz/work02/el023144/git_clone/gp32/0505/bsnnfdiag_local_clone_v8.2.0_gft_rel/vobs/projects/springboard;cp -r dist /zzz/work02/el023144/git_clone/gp32/0505/bsnnfdiag_local_clone_v8.2.0_gft_rel/vobs/projects/springboard;cp -r common_src/ /zzz/work02/el023144/git_clone/gp32/0505/bsnnfdiag_local_clone_v8.2.0_gft_rel/vobs/projects/springboard;cp -r linux_plat/ /zzz/work02/el023144/git_clone/gp32/0505/bsnnfdiag_local_clone_v8.2.0_gft_rel/vobs/projects/springboard;cp -r prom/ /zzz/work02/el023144/git_clone/gp32/0505/bsnnfdiag_local_clone_v8.2.0_gft_rel/vobs/projects/springboard;cp -r tps/ /zzz/work02/el023144/git_clone/gp32/0505/bsnnfdiag_local_clone_v8.2.0_gft_rel/vobs/projects/springboard;cp -r build /zzz/work02/el023144/git_clone/gp32/0505/bsnnfdiag_local_clone_v8.2.0_gft_rel/vobs/projects/springboard;
+
+cd vobs/projects/springboard/make;make -f Makefile.nfosdiag BD=156 slink;cd ../build/swbd156/make;/tools/bsnbld/scripts/emake_wrapper.git linux_build;cd ../linux;cp ../linux_2_6_34_tseries/include/generated/autoconf.h include/linux/.; cd ../nfosdiag/src/diag;/tools/bsnbld/scripts/emake_wrapper.git   
+

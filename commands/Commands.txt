@@ -1,0 +1,1030 @@
+//////////////////////////////////////配置环境命令///////////////////////////////////////////////////////////
+1、在服务器上创建vnc桌面
+vncserver 
+brocade1234
+hq1-up-swe-13{7}: vncserver --help
+
+usage: vncserver [:<number>] [-name <desktop-name>] [-depth <depth>]
+                 [-geometry <width>x<height>]
+                 [-pixelformat rgbNNN|bgrNNN]
+                 [-fp <font-path>]
+                 [-fg]
+                 <Xvnc-options>...
+
+       vncserver -kill <X-display>
+
+       vncserver -list
+
+	   hq1-up-extdiag-01{3}: vncserver -geometry 1280x800
+
+New 'hq1-up-extdiag-01:2 (edward)' desktop is hq1-up-extdiag-01:2
+
+Starting applications specified in /users/home40/edward/.vnc/xstartup
+Log file is /users/home40/edward/.vnc/hq1-up-extdiag-01:2.log
+/*************************************BDI操作指令*********************************************/
+config | fig
+config configxxx.cfg
+reset halt
+erase
+program
+reset run
+/%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%DDR test%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%/
+In Uboot – about 1.5 hours in 16G bytes.
+1.	setenv testdram long
+2.	saveenv
+3.	reset
+4.	check the test result in bootup
+
+In Linux -  about 20 ~ 30 minutes in 1 loop.
+1.	mount -t nfs -o nolock 10.70.10.22:/vol/home4/home40/eweng /mnt
+2.	cd /mnt/testing
+3.	cp linux.tar.bz2 /tmp
+4.	cp memtest /sbin
+5.	Some system need copy these files to /sbin
+a.	arraysize
+b.	diff
+c.	lspci
+6.	memtest
+7.	check test result. The parameter maybe need to tune in uboot if “memtest” have some crash or error log.
+
+
+/*******************************************************Download u-Boot bin file and select bank**************************************/
+i2c md 4c.0 0x00 1
+tftp 0x1000000 rigel/rigel1/1uboot/p3041-fman_ucode_then_u-boot-v1.0.70.bin
+prot off all
+erase 0xe8160000 0xe81fffff
+cp.b 0x1000000 0xe8160000 0xa0000
+
+tftp 0x1000000 rigel/rigel1/1uboot/fman_ucode_then_u-boot-v1.0.56.bin
+prot off all
+erase 0xe8360000 0xe83fffff
+cp.b 0x1000000 0xe8360000 0xa0000
+
+fman_ucode_then_u-boot.bin
+tftp 0x1000000 toucan/debug/fman_ucode_then_u-boot.bin
+prot off all
+erase 0xe8360000 0xe83fffff
+cp.b 0x1000000 0xe8360000 0xa0000
+
+tftp 0x1000000 rigel/rigel1/debug/fman_ucode_then_u-boot_fsl_pci.bin
+
+
+--------update katana2 uboot from ethernet------------
+//tftp 0x1000000 katana2/0303/fman_ucode_then_u-boot_w_clk_adjust_7_0303.bin
+tftp 0x1000000 katana2/0303/fman_ucode_then_u-boot_81_0303_clk_adjust_7.bin
+tftp 0x1000000 katana2/0305/fman_ucode_then_u-boot_0305_clk_6_wrl_start_7.bin
+tftp 0x1000000 katana2/0307/fman_ucode_then_u-boot_0307_clk_7_wrl_start_7.bin
+tftp 0x1000000 katana2/fman_ucode_then_u-boot_80_1029.bin
+tftp 0x1000000 katana2/0220/fman_ucode_then_u-boot_fix_1G.bin   // tftp 0x1000000 katana2/0223/fman_ucode_then_u-boot_0223_ddr_setting.bin
+prot off all
+erase 0xe8360000 0xe83fffff
+cp.b 0x1000000 0xe8360000 0xa0000
+
+~~~~~~~~~~~~~~~~~~~Update Wedge+ uboot ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+use entire_bootflash_image.bin 
+[6/28/2016 12:55 PM] Raymond Grigsby: 
+You can use the one that is currently on the server
+
+=> tftpboot 1000000 rayg/entire_bootflash_image.bin
+=> protect off all
+=> erase 0xe8000000 +800000
+=> cp.b 0x1000000 0xe8000000 800000 
+
+~~~~~~~~~~~~~~~~~~~~update T1042 on chewbacca~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=> tftpboot 1000000 edward/t1042/entire_bootflash_image_3_0_2.bin
+=> protect off all
+=> erase 0xe8000000 +800000
+=> cp.b 0x1000000 0xe8000000 800000
+
+~~~~~~~~~~~~~~~~~~~Update uboot on chewbacca board for Starlynx ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=> tftpboot 0x1000000 edward/starlynx/fman_ucode_then_u-boot.bin
+=> protect off all
+=> cp.b 0x1000000 0xe8750000 b0000
+=>reset
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~check the uboot~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=> tftpboot 0x1000000 edward/wedge_plus/fman_ucode_then_u-boot-v3.0.2_check.bin
+=> protect off all
+=> erase 0xe8750000 +$filesize
+=> cp.b 0x1000000 0xe8750000 b0000
+=>reset
+
+=> tftpboot 0x1000000 edward/wedge_plus/fman_ucode_then_u-boot-v3.0.2_check.bin
+=> protect off all
+=> erase 0xe8350000 +$filesize
+=> cp.b 0x1000000 0xe8350000 b0000
+=>reset
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~update the starlynx uboot~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=> tftpboot 0x1000000 starlynx/uboot/fman_ucode_then_u-boot-v3.0.15.bin
+=> protect off all
+=> erase 0xe8700000 +$filesize
+=> cp.b 0x1000000 0xe8700000 100000
+=>reset
+linux 启动时关闭HV
+setenv fastboot false
+
+setenv linux_bootcmd “makesinrec 0x01000000;ext2load usb 0:1 0x4000000 boot/silkworm.dtb;ext2load usb 0:1 0x2000000 boot/zImage.tree.initrd;bootm 0x2000000 - 0x4000000”
+setenv linux_bootcmd 'makesinrec 0x01000000;ext2load usb 0:1 0x4000000 boot/silkworm.dtb;ext2load usb 0:1 0x2000000 boot/zImage.tree.initrd;bootm 0x2000000 - 0x4000000'
+run linux_bootcmd
+
+i2c md 4c.0 0 1
+reset
+
+i2c mw 4c.0 0 0x0 1
+reset
+
+i2c mw 4c.0 0 0x1 1
+reset
+
+i2c mw 4c.0 0 0x06 1
+i2c md 4c.0 0x00 1
+
+
+/**************************************************************Commands in uboot ******************************************/
+pci	Usage:
+pci [bus] [long]
+    - short or long list of PCI devices on bus 'bus'
+pci header b.d.f
+    - show header of PCI device 'bus.device.function'
+pci display[.b, .w, .l] b.d.f [address] [# of objects]
+    - display PCI configuration space (CFG)
+pci next[.b, .w, .l] b.d.f address
+    - modify, read and keep CFG address
+pci modify[.b, .w, .l] b.d.f address
+    -  modify, auto increment CFG address
+pci write[.b, .w, .l] b.d.f address value
+    - write to CFG address"
+    
+ pci -o read -a 0x5e -l 16 -b 5
+
+
+md - memory display
+Usage:
+md [.b, .w, .l] address [# of objects]
+md 0xce000000 1//memory display
+
+mw - memory write (fill)
+Usage:
+mw [.b, .w, .l] address value [count]
+mw 0xce000000 1 1//memory write
+
+
+=> usb part
+ 
+Partition Map for USB device 0  --   Partition Type: DOS
+ 
+Part    Start Sector    Num Sectors     UUID            Type
+  1     1               1718750         658b0e00-01     83
+  2     1720320         1716224         658b0e00-02     83
+  3     3436544         391168          658b0e00-03     83
+=> usb write 0 2 256
+ 
+USB write: device 0 block # 2, count 598 ... 0 blocks write: ERROR
+=>
+ 
+=> usb info 
+1: Hub,  USB Revision 2.0
+- u-boot EHCI Host Controller 
+ - Class: Hub
+- PacketSize: 64  Configurations: 1
+- Vendor: 0x0000  Product 0x0000 Version 1.0
+   Configuration: 1
+   - Interfaces: 1 Self Powered 0mA
+     Interface: 0
+     - Alternate Setting 0, Endpoints: 1
+     - Class Hub
+     - Endpoint 1 In Interrupt MaxPacket 2048 Interval 255ms
+
+
+i2c - I2C sub-system
+
+Usage:
+i2c crc32 chip address[.0, .1, .2] count - compute CRC32 checksum
+i2c dev [dev] - show or set current I2C bus
+i2c dev 1
+i2c loop chip address[.0, .1, .2] [# of objects] - looping read of device
+i2c md chip address[.0, .1, .2] [# of objects] - read from I2C device
+ i2c md 0x7f 0x00 0x100
+i2c mm chip address[.0, .1, .2] - write to I2C device (auto-incrementing)
+i2c mw chip address[.0, .1, .2] value [count] - write to I2C device (fill)
+i2c nm chip address[.0, .1, .2] - write to I2C device (constant address)
+i2c probe - show devices on the I2C bus
+i2c read chip address[.0, .1, .2] length memaddress - read to memory 
+i2c reset - re-init the I2C Controller
+i2c speed [speed] - show or set I2C bus speed
+
+/*******************************how to clear env**************************/
+md 0xed000000?
+md 0xed000800
+md 0xed001000?
+md 0xed001800
+mw 0xed000000 0 0x1000
+mw 0xed000800 0 0x1000
+mw 0xed001000 0 0x1000
+mw 0xed001800 0 0x1000
+md 0xed000000?
+md 0xed000800
+md 0xed001000?
+md 0xed001800
+/////////////////////////uboot 中读写fpga命令//////////////////////////////////
+=> mw.b 0xec000095 0x0
+=> md.b 0xec000095
+=> mw.b 0xec0000d5 0x0
+/////////////////////////uboot中I2C操作////////////////////////////////////////
+=> i2c dev 2  
+Setting bus to 2
+=> i2c mw 0x71 0 2
+=> i2c probe  
+
+=> i2c md 0x2e 20         
+0020: 40 00 00 00 80 00 00 00 00 00 00 00 00 00 00 00    @...............
+=> i2c mw 0x2e 0x20 0xc0 1
+=> i2c md 0x2e 20         
+0020: c0 00 00 00 80 00 00 00 00 00 00 00 00 00 00 00    ................
+
+i2c - I2C sub-system
+
+Usage:
+i2c bus [muxtype:muxaddr:muxchannel] - show I2C bus info
+crc32 chip address[.0, .1, .2] count - compute CRC32 checksum
+i2c dev [dev] - show or set current I2C bus
+i2c loop chip address[.0, .1, .2] [# of objects] - looping read of device
+i2c md chip address[.0, .1, .2] [# of objects] - read from I2C device
+i2c mm chip address[.0, .1, .2] - write to I2C device (auto-incrementing)
+i2c mw chip address[.0, .1, .2] value [count] - write to I2C device (fill)
+i2c nm chip address[.0, .1, .2] - write to I2C device (constant address)
+i2c probe [address] - test for and show device(s) on the I2C bus
+i2c read chip address[.0, .1, .2] length memaddress - read to memory 
+i2c write memaddress chip address[.0, .1, .2] length - write memory to i2c
+i2c reset - re-init the I2C Controller
+i2c speed [speed] - show or set I2C bus speed 
+
+//////////////////////////////How to set the nvreg ///////////////////////////
+i2c mw 4c 0 0x0
+disable the protect for NVREG.
+=> md.b 0xec00000b
+ec00000b: 1c 01 00 00 00 1b 00 00 00 00 02 00 00 52 00 00    .............R..
+ec00001b: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ................
+ec00002b: 00 00 00 00 00 00 00 00 00 00 03 03 00 00 00 00    ................
+ec00003b: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ................
+=> mw.b 0xec00000b 0x0c
+=> md.b 0xec00000b     
+ec00000b: 0c 01 00 00 00 1b 00 00 00 00 02 00 00 52 00 00    .............R..
+ec00001b: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ................
+ec00002b: 00 00 00 00 00 00 00 00 00 00 03 03 00 00 00 00    ................
+ec00003b: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ................
+=> i2c mw 4c 0 0xf 
+=> i2c md 4c 0 3  
+0000: 0f 0f 0f    ...
+
+   
+/////////////////////////////更新uboot////////////////////////////////////////
+更新640K 10 sectors uboot命令。
+=> setenv ipaddr 192.168.65.215
+=> ping 192.168.65.21          
+Using FM1@DTSEC2 device
+host 192.168.65.21 is alive
+=> tftpboot 0x1000000 simon/u-boot.bin
+Using FM1@DTSEC2 device
+TFTP from server 192.168.65.21; our IP address is 192.168.65.215
+Filename 'simon/u-boot.bin'.
+Load address: 0x1000000
+Loading: #############################################
+         2.4 MiB/s
+done
+Bytes transferred = 655360 (a0000 hex)
+=> protect off all
+Un-Protect Flash Bank # 1
+=> erase 0xe8760000 +$filesize
+
+.......... done
+Erased 10 sectors
+=> cp.b 0x1000000 0xe8760000 a0000
+Copy to Flash... 9....8....7....6....5....4....3....2....1....done
+=> erase 0xe8360000 +$filesize    
+
+.......... done
+Erased 10 sectors
+=> cp.b 0x1000000 0xe8360000 a0000
+Copy to Flash... 9....8....7....6....5....4....3....2....1....done
+=> reset
+///////////更新704K 11 sectors uboot命令。//////////////////
+=> setenv ipaddr 192.168.65.215
+=> ping 192.168.65.21          
+Using FM1@DTSEC2 device
+host 192.168.65.21 is alive
+=> tftpboot 0x1000000 simon/u-boot.bin
+Using FM1@DTSEC2 device
+TFTP from server 192.168.65.21; our IP address is 192.168.65.215
+Filename 'simon/u-boot.bin'.
+Load address: 0x1000000
+Loading: #############################################
+         2.4 MiB/s
+done
+Bytes transferred = 655360 (a0000 hex)
+=> protect off all
+Un-Protect Flash Bank # 1
+=> erase 0xe8750000 +$filesize
+
+........... done
+Erased 11 sectors
+=> cp.b 0x1000000 0xe8750000 b0000
+Copy to Flash... 9....8....7....6....5....4....3....2....1....done
+=> erase 0xe8350000 +$filesize
+
+........... done
+Erased 11 sectors
+=> cp.b 0x1000000 0xe8350000 b0000
+Copy to Flash... 9....8....7....6....5....4....3....2....1....done
+=> reset
+
+set env to close HV 
+default value:
+bootcmd=execute_internal_bootcmd
+then modify to:
+bootcmd=calc_prt;setenv bootargs root=/dev/sda$prt rootfstype=ext4 quiet;makesinrec 0x01000000;ext2load usb 0:$prt 0x4000000 boot/silkworm.dtb;ext2load usb 0:$prt 0x2000000 boot/uImage;bootm 0x2000000 - 0x4000000
+setenv bootcmd 'calc_prt;setenv bootargs root=/dev/sda$prt rootfstype=ext4 quiet;makesinrec 0x01000000;ext2load usb 0:$prt 0x4000000 boot/silkworm.dtb;ext2load usb 0:$prt 0x2000000 boot/uImage;bootm 0x2000000 - 0x4000000'
+////////////////////////starlynx update 704k uboot//////////////////////////////////////
+=> tftpboot 0x1000000 edward/starlynx/uboot/1101/fman_ucode_then_u-boot.bin
+tftpboot 0x1000000 edward/starlynx/uboot/1108/fman_ucode_then_u-boot.bin
+tftpboot 0x1000000 edward/starlynx/uboot/1116/fman_ucode_then_u-boot.bin
+tftpboot 0x1000000 starlynx/uboot/fman_ucode_then_u-boot-v3.0.6.bin
+=> protect off all
+
+=> erase 0xe8750000 +$filesize
+
+
+=> cp.b 0x1000000 0xe8750000 b0000
+
+=> erase 0xe8350000 +$filesize
+
+=> cp.b 0x1000000 0xe8350000 b0000
+
+=> reset
+/**********************************************************/
+
+
+ /*******************************Disable hypervisor************************************/
+setenv fastboot false
+setenv linux_bootcmd “makesinrec 0x01000000;ext2load usb 0:1 0x4000000 boot/silkworm.dtb;ext2load usb 0:1 0x2000000 boot/zImage.tree.initrd;bootm 0x2000000 - 0x4000000”
+setenv bootcmd "run linux_bootcmd"
+/***************************************************************************************/
+
+在uboot中查看usb 中内容。
+=> ext2ls usb 0:1 /boot/         //  This is list /boot/ in partition 1.
+<DIR> 4096 .
+<DIR> 4096 ..
+               0 extra_boot_opts
+         1322150 System.map
+           13431 silkworm_hct.dtb
+           21964 silkworm.dtb
+<DIR> 4096 image
+<SYM> 20 uImage
+           13431 silkworm_hct_2part.dtb
+<SYM> 34 bootrom.bin
+         3662333 zImage.tree.initrd
+         3662333 carbon_uImage
+=> ext2ls usb 0:2 /boot/              //  This is list /boot/ in partition 2. 
+<DIR> 4096 .
+<DIR> 4096 ..
+               0 extra_boot_opts
+         1322150 System.map
+           13431 silkworm_hct.dtb
+           21964 silkworm.dtb
+<DIR> 4096 image
+<SYM> 20 uImage
+           13431 silkworm_hct_2part.dtb
+<SYM> 34 bootrom.bin
+         3662329 zImage.tree.initrd
+
+
+ ////////////////////////////////Commands in Diag//////////////////////////////////////////////
+
+iic -o <read|write|dread|dwrite> -b <bus num> -h <dev addr> -a <register offset> -d <data>  -l <len>
+-a 地址  -d 数据 -l 长度 
+iic -o read -m rtc -l 0x100
+        diagPrintf(ALWAYS_ON, 0, "\n%s usage:\n\n", argv[1]);
+        diagPrintf(ALWAYS_ON, 0, "%s -s <slot> where slot is 0-10\n", argv[1]);
+        diagPrintf(ALWAYS_ON, 0, "  -a <address>\n");
+        diagPrintf(ALWAYS_ON, 0, "  -b <bus>\n");
+        diagPrintf(ALWAYS_ON, 0, "  -d <data0 .. data15>\n");
+        diagPrintf(ALWAYS_ON, 0, "  -e <bigEndian>\n");
+        diagPrintf(ALWAYS_ON, 0, "  -h <I2CHwAddress>\n");
+        diagPrintf(ALWAYS_ON, 0, "  -l <length>\n");
+        diagPrintf(ALWAYS_ON, 0, "  -m <mid|eid|cfg|dim|rtc|jtag|fru|sw|"
+            "pm|ps\n");
+        diagPrintf(ALWAYS_ON, 0, "      pmon|temp|sfp>\n");
+        diagPrintf(ALWAYS_ON, 0, "  -n <loops>\n");
+        diagPrintf(ALWAYS_ON, 0, "  -o <read|write|reset|resetasic>\n");
+        diagPrintf(ALWAYS_ON, 0, "  -p <pattern>\n");
+        diagPrintf(ALWAYS_ON, 0, "  -t <testMode>\n");
+        diagPrintf(ALWAYS_ON, 0, "  -z <logfile>\n");
+sramtest  -s 7 -n 10
+Dump QSFP 光模块信息：
+iic -o read -m qsfp -u 1 -l 0x100
+main (Starlynx)> iic -o read -m qsfp -u 1 -l 0x100
+ 
+
+00000000 11 07 02 ff 00 ff 01 00 00 55 55 00 00 00 00 00      .........UU.....
+00000010 00 00 00 00 00 00 28 da 00 00 81 2c 00 00 00 00      ......(....,....
+00000020 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00      ................
+00000030 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00      ................
+00000040 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00      ................
+00000050 00 00 00 00 00 00 00 aa aa 00 00 00 00 00 00 00      ................
+00000060 00 00 ff 00 00 00 00 00 00 00 00 00 00 00 00 00      ................
+00000070 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00      ................
+00000080 11 07 02 ff 00 ff 00 00 00 55 55 00 00 00 00 00      .........UU.....
+00000090 00 00 00 00 00 00 28 ed 00 00 81 2c 00 00 00 00      ......(....,....
+000000A0 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00      ................
+000000B0 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00      ................
+000000C0 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00      ................
+000000D0 00 00 00 00 00 00 00 aa aa 00 00 00 00 00 00 00      ................
+000000E0 00 00 ff 00 00 00 00 00 00 00 00 00 00 00 00 00      ................
+000000F0 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00      ................
+
+read NVREG in nfdiag.
+key: -w is 0 read and write.
+main (Cassian)> iic -o read -b 0 -a 0x0 -h 0x4c -l 1
+iicRead: /dev/i2c0 hwAddr: 0x98[0x4c] addr: 0x0 width: 0 length: 1 maxRetry: 1, unit 1
+00000000 00 
+main (Cassian)> iic -o write -b 0 -a 0x0 -h 0x4c -l 1 -d 0x01 -w 0 
+iicWrite: /dev/i2c0 hwAddr: 0x4c[0x98] addr: 0x0 width: 0 length: 1 maxRetry: 1 data: 0x1
+iicWrite[252]: data 1
+main (Cassian)> iic -o read -b 0 -a 0x0 -h 0x4c -l 1
+iicRead: /dev/i2c0 hwAddr: 0x98[0x4c] addr: 0x0 width: 0 length: 1 maxRetry: 1, unit 1
+00000000 01 
+iic -o read -b 0 -a 0x3 -h 0x4c -l 1
+redbird 向fpga 0x98 寄存器中写0xf
+nfdiag fpga -o write -a 0x98 -d 0xf
+
+redbird 读取fpga 0x98 寄存器中的值
+nfdiag fpga -o read -a 0x98
+ModelidNew 9c 
+
+             Register Name              Offset     Data
+             -------------              ------     ----
+FPGA_SEEPROM_WRITE_ENA                   0098       0f
+
+SWBD178
+seeprominit -p SWBD178 -o read -t ALL
+nfdiag seeprominit -p SWBD156 -o read -t ALL
+main> help seeprominit
+ 
+Initialize SEEPROM information structures
+
+Usage: seeprominit [help] [ver] [-p <swbd>] [-pn <n>] [-sn <n>]
+                   [-oui <n>] [-wwn <n>] [-lid <n>] [-o <opr>]
+                   [-t <type>] [-dd <n>] [-mm <n>] [-yy <n>]
+
+   help                   - Display Usage
+   ver                    - Display Version/Date
+   -p <SWBDxx>            - platform
+   -o <read|init>         - operation (dft: init)
+   -t <CP|SW|FAN|WWN|B_WWN|ALL> - type (default: ALL)
+   -t <|DC>               - type (swbd44 only)
+   -pn <n> (14 chars)     - Board Part Number
+   -sn <n> (12 chars)     - Board Serial Number
+   -chpn <n> (14 chars)   - Chassis Board Part Number
+   -chsn <n> (12 chars)   - Chassis Board Serial Number
+   -dcpn <n> (14 chars)   - Daughter Card Prt Num/swbd44/swbd46 only
+   -dcsn <n> (12 chars)   - Daughter Card Ser Num/swbd44/swbd46 only
+   -dd <n> (2 dec digits) - Manufacture Date
+   -mm <n> (2 dec digits) - Manufacture Month
+   -yy <n> (4 dec digits) - Manufacture Year
+   -oui <n> (6 hex digts) - Org Uniq Id Number
+   -wwn <n> (6 hex digts) - WWN Number
+   -lic <n> (16 hex dgts) - License ID
+   -mac0 <n> (6 hex dgts) - GIGE Mac 0
+   -id <n> (2 hex dgts) - swFruId
+   -mac1 <n> (6 hex dgts) - GIGE Mac 1
+Rigel2u中的一个例子，redbird应该不会有这么多的的参数，只是作为参考。
+seeprominit -o init -t ALL -p SWBD154 -pn 40-1001013-02  -sn CWN0331K007 -dcpn 40-1001014-02 -dcsn CWP0331K007 -oui 000533 -wwn e61380 -wwnrange 256 -mac0 000533e61380  -macrange 768  -airflow 0 -enetsfp 1 -rev 1 -filler0 1 -lid 1000000533e61380  -dd 9 -mm 1 -yy 15
+Shenlong 烧录fru命令：
+seeprominit -p SWBD167 -o init -t ALL -pn 40-1001111-01 -sn CTJshenlong -rev 1 -oui 50EB1A -wwn 883061 -lid 100050EB1A883061
+WWN:10:00:50:eb:1a:b0:ff:fb
+MAC:50:eb:1a:b0:ff:fb
+seeprominit -p SWBD167 -o init -t ALL -pn 40-1001111-01 -sn CTJshenlong -rev 1 -oui 50EB1A -wwn B0FFFB -lid 100050EB1AB0FFFB  
+seeprominit -p SWBD168 -o init -t ALL -pn 40-1001111-01 -sn CTJshenlong -rev 1 -oui 50EB1A -wwn B0FFAB -lid 100050EB1AB0FFAB  
+
+seeprominit -p SWBD168 -o init -t ALL -pn 40-1001111-01 -sn CTJkatana2 -rev 1 -oui 50EB1A -wwn B0FFAB -lid 100050EB1AB0FFAB -mac0 50EB1AB0FFAB -dd 03 -mm 09 -yy 15
+
+Katna2 TE seeprominit command:
+seeprominit -p SWBD168 -o init -t ALL -pn 40-1001132-01 -sn EVQ0436L004 -rev 1 -oui 50eb1a -wwn ea91b3 -filler0 0 -wwnrange 48 -macrange 174 -lid 100050eb1aea91b3 -mac0 50eb1aea91b3 
+
+seeprominit -p SWBD168 -o init -t ALL -pn 40-0000155-03 -sn SB123456789 -rev 1 -oui 00051e -wwn 123456 -filler0 0 -wwnrange 48 -macrange 174 -lid 100000051e123456 -mac0 00051e123456 
+ 100000051e123456
+烧录FPGA 
+首先mount 21 cp fpga 文件到本地。需要把文件放到nfdiag 相同目录下。
+cp /mnt/mnt/redbird/Redbird_FPGA_0x07_08202014.xsvf /nfabos/bin
+main> jtagpgm -m Redbird_FPGA_0x07_08202014.xsvf
+烧录正常会打印：SUCCESS - 
+Completed XSVF execution.
+
+set date and sync to hw clock
+
+bash-2.04# date 121217182014.10
+Fri Dec 12 17:18:10 UTC 2014
+bash-2.04# hwclock --systohc
+//pci test in nfdiag
+sh-2.04# memcmd mem -o read -a ec000000
+
+EC000000 11550100 
+sh-2.04# memcmd pci -o dmamalloc -l 1000 -b 1 -u 0
+
+DMA CPU Address 0x467a7000  PCI Address 0x67a7000
+
+memcmd pci -o dmafree  -b 1 -u 0 -a 0x467a7000 -l 1000
+
+~~~~~~~~~~~~~~~~~~redbird led test~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+关闭所有的led
+nfdiag:root> nfdiag ledtest -o allportledoff          
+ModelidNew 9c 
+
+LedTest starts
+
+LedTest PASSED
+
+关闭port 1
+nfdiag:root> nfdiag ledtest -o portledoff  -p 1
+ModelidNew 9c 
+
+LedTest starts
+
+LedTest PASSED
+
+port 1 亮黄灯
+nfdiag:root> nfdiag ledtest -o portstatusledamber -p 1
+ModelidNew 9c 
+
+LedTest starts
+
+LedTest PASSED
+
+port 2 亮绿灯
+nfdiag:root> nfdiag ledtest -o portstatusledgreen -p 2
+ModelidNew 9c 
+
+LedTest starts
+
+LedTest PASSED
+
+port 1 绿灯1S间隔闪烁
+nfdiag:root> nfdiag ledtest -o portstatusledblinkgreen  -p 1
+ModelidNew 9c 
+
+LedTest starts
+
+LedTest PASSED
+
+port 1到8  绿灯1S间隔闪烁
+nfdiag:root> nfdiag ledtest -o portstatusledblinkgreen  -p 1
+ModelidNew 9c 
+
+LedTest starts
+
+LedTest PASSED
+
+port 1 黄灯灯1S间隔闪烁
+nfdiag:root> nfdiag ledtest -o portstatusledblinkamber  -p 1
+ModelidNew 9c 
+
+LedTest starts
+
+LedTest PASSED
+
+
+~~~~~~~~~~~~~~~~~~redbird 修改diag打印信息量~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+main> debuglevel -o write -d 4
+Changed current debug 2 to 4
+
+********************** diag set condoe3 preamp value commands************************************
+设置参数
+nfdiag:root> nfdiag condor3 -o preampset -t 8 -p 31 -txtap0 0x5
+ModelidNew 9c 
+Using preamp values in /nfabos/bin/system_preamp0.bin
+Saving Redbird preamp values for slot 0 ...
+
+查看参数
+condor3 -o preamp -t 8
+
+condor3 -o dumpstatus -t 8 -p 27
+
+condor3 -o preampset -t 8 -txtap0 0x0 -p 0-31
+
+
+condor3 -o preampset -t 8 -txtap1 0x3c -p 0-31
+
+condor3 -o preampset -t 8 -txtap1 0x35 -p 0-31
+
+condor3 -o preampset -t 8 -txtap1 0x28 -p 0-31
+
+condor3 -o preampset -t 8 -txtap1 0x20 -p 0-31
+
+condor3 -o preampset -t 8 -txtap1 0x18 -p 0-31
+
+condor3 -o preampset -t 8 -txtap2 0x0 -p 0-31
+
+cobra commands for preamp:
+
+cobra -o preampset  -txTap2 0x23 -p 45
+
+frameshooter -l 1500 -t 16 -m 1 -krenable  -c 64000000 -p 45
+
+cobra -o preampset -t 16 -p 45 -txTap0 0x08 -txTap1 0x38 -txTap2 0x25 -txAmp 0x3c
+
+cobra -o preampset -t 16 -p 45 -txTap0 0x08 -txTap1 0x38 -txTap2 0x23 -txAmp 0x3c
+
+nfdiag:root> nfdiag condor3 -o preamp -t 8 -p 0-31
+ModelidNew 9c 
+Using preamp values in /nfabos/bin/system_preamp0.bin
+
+    Slot 0 Condor3 Serdes setting in table for speed 8G
+
+slot Port AChip APort txDrv txTap0 txTap1 txTap2 txAmp txPol rxCfg rxDfe2 rxPk
+
+ 00  031    0     08   0000   0005   002a  0017  0039   00fa  a02c  013d  5
+
+//////////////////////////////////Cobra2 and Cobra 相关指令//////////////////////////////////////////////////
+mount.rigel2
+ bi -t 10
+sfpshow -p 50
+cbr -o setupkrtraining -p 289-864
+cbr -o startkrtraining -p 289-864 -krparallel 1
+	        -p 289-864 -krparallel 1
+cbr -o eyemetrics  -p 289-864 
+cbr -o resetserdes -p 289-864
+cbr -o clearcounter -p 289-864
+cbr -o txframe -c 1 -l 1024 -p  289-864
+cbr -o counter -p 289-864
+
+
+//////////////////////////////////Burnin  BFT 相关//////////////////////////////////////////////////
+设置关机保护等，如果有需要in u-boot shell
+setenv skipshutdown yes
+设置bft参数
+dsc bft
+写入burnin参数
+dsb bft
+设置温度保护等，如果有需要
+ohp -t 80
+开始执行BFT
+drb bft
+设置runin参数
+dsc runin
+写入runin参数
+dsb runin
+设置温度保护等，如果有需要
+ohp -t 80
+开始执行runin
+drb runin
+查看burnin的结果
+@ burninerrshow
+停止Burnin/ESS/Runin
+diagstopburnin diagstopburnin diagstopburnin diagstopburnin
+关闭margin
+diagmarginoff
+
+////////////////////////////////////////seeprominit////////////////////////////////////////////////
+shenlong FRU 烧写内容
+seeprominit -p SWBD167 -o init -t ALL -pn 40-1001111-01 -sn CTJshenlong -rev 1 -oui 50EB1A -wwn B05EF9 -lid 100050EB1AB05EF9    10:00:50:eb:1a:b0:5e:f9
+MAC:50:eb:1a:b0:5e:f9
+WWN:10:00:50:eb:1a:b0:5e:f9
+////////////////////////////////////////StarLynx//////////////////////////////////////////////////
+seeprominit -p SWBD175 -o init -t ALL -pn 40-1001225-01 -sn FF3240M00F -rev 1 -oui 50eb1a -wwn ea91b3  -lid 100050eb1aea91b3 -filler0 0 -wwnrange 48 -macrange 174 -mac0 00051e123456 
+FFD3240M00A
+seeprominit -p SWBD175 -o init -t ALL -pn 40-1001225-01 -sn FFD3240M00A -rev 1 -oui 50eb1a -wwn ea91b9  -lid 100050eb1aea91b9 -filler0 0 -wwnrange 48 -macrange 174 -mac0 50eb1aea91b9
+seeprominit -p SWBD175 -o init -t ALL -pn 40-1001225-01 -sn FFD3240M005 -rev 1 -oui 50eb1a -wwn ea91ba  -lid 100050eb1aea91ba -filler0 0 -wwnrange 48 -macrange 174 -mac0 50eb1aea91ba  
+
+seeprominit -p SWBD175 -o init -t ALL -pn 40-1001225-01 -sn FFD3240M007 -rev 1 -oui c4f57c -wwn 919d1a  -lid 1000c4f57c919d1a -filler0 0 -wwnrange 48 -macrange 174 -mac0 c4f57c919d1a
+
+seeprominit -p SWBD175 -o init -t ALL -pn 40-1001225-01 -sn FFD3240M006 -rev 1 -oui c4f57c -wwn 919cda  -lid 1000c4f57c919cda -filler0 0 -wwnrange 48 -macrange 174 -mac0 c4f57c919cda
+
+seeprominit -p SWBD175 -o init -t ALL -pn 40-1001225-01 -sn FFD3240M00D -rev 1 -oui 50EB1A -wwn E27799  -lid 100050EB1AE27799 -filler0 0 -wwnrange 48 -macrange 174 -mac0 50EB1AE27799 
+
+seeprominit -p SWBD175 -o init -t ALL -pn 40-1001225-01 -sn FFD3240M001 -rev 1 -oui 50EB1A -wwn E2775a  -lid 100050EB1AE2775a -filler0 0 -wwnrange 48 -macrange 174 -mac0 50EB1AE2775a 
+
+seeprominit -p SWBD175 -o init -t ALL -pn 40-1001225-01 -sn FFD3240M002 -rev 1 -oui c4f57c -wwn 919c1a  -lid 1000c4f57c919c1a -filler0 1 -wwnrange 48 -macrange 174 -mac0 c4f57c919c1a
+
+seeprominit -p SWBD175 -o init -t ALL -pn 40-1001225-02 -sn FFD3202N007 -rev 1 -oui c4f57c -wwn b8b1d3  -lid 1000c4f57cb8b1d3 -filler0 1 -wwnrange 48 -macrange 174 -mac0 c4f57cb8b1d3
+
+seeprominit -p SWBD175 -o init -t ALL -pn 40-1001225-02 -sn FFD3240M001 -rev 1 -oui c4f57c -wwn 919b9a  -lid 1000c4f57c919b9a -filler0 1 -wwnrange 48 -macrange 174 -mac0 c4f57c919b9a
+
+seeprominit -p SWBD175 -o init -t ALL -pn 40-1001225-01 -sn FFD3240M005 -rev 1 -oui c4f57c -wwn 919c9a  -lid 1000c4f57c919c9a -filler0 1 -wwnrange 48 -macrange 174 -mac0 c4f57c919c9a
+
+seeprominit -p SWBD175 -o init -t ALL -pn 40-1001225-02 -sn FFD3202N00C -rev 1 -oui c4f57c -wwn b8b313  -lid 1000c4f57cb8b313 -filler0 1 -wwnrange 48 -macrange 174 -mac0 c4f57cb8b313
+
+seeprominit -p SWBD175 -o init -t ALL -pn 40-1001225-01 -sn FFD3240M00A -rev 1 -oui c4f57c -wwn bab313  -lid 1000c4f57cbab313 -filler0 1 -wwnrange 48 -macrange 174 -mac0 c4f57cbab313
+
+seeprominit -p SWBD175 -o init -t ALL -pn 40-1001225-02 -sn FFD3208N013 -rev 1 -oui c4f57c -wwn c78fc1  -lid 1000c4f57cc78fc1 -filler0 1 -wwnrange 48 -macrange 174 -mac0 c4f57cc78fc1
+
+seeprominit -p SWBD175 -o init -t ALL -pn 40-1001225-05 -sn FFB3248N00F -rev 1 -oui 889471 -wwn 200bc8  -lid 1000889471200bc8 -filler0 1 -wwnrange 48 -macrange 174 -mac0 889471200bc8
+Graphite32:
+#8
+seeprominit -p SWBD176 -o init -t ALL -pn 40-1001228-01A -sn FJS3250M006 -rev 1 -oui c4f57c -wwn B60005  -lid 1000c4f57cb60005 -filler0 1 -wwnrange 48 -macrange 174 -mac0 c4f57cb60005  
+#7
+seeprominit -p SWBD176 -o init -t ALL -pn 40-1001228-01A -sn FJS3250M00E -rev 1 -oui c4f57c -wwn B6000D  -lid 1000c4f57cb6000d -filler0 1 -wwnrange 48 -macrange 174 -mac0 c4f57cb6000d
+
+Cassian 
+
+seeprominit -p SWBD181 -o init -t ALL -pn 40-1001200-01C -sn FAB3250M00E -rev 1 -oui c4f57c -wwn B600AC  -lid 1000c4f57cb600ac -filler0 1 -wwnrange 48 -macrange 174 -mac0 c4f57cb600ac
+
+seeprominit -p SWBD181 -o init -t ALL -pn 40-1001200-01B -sn FAB3250M00F -rev 1 -oui c4f57c -wwn B600AB  -lid 1000c4f57cb600ab -filler0 1 -wwnrange 48 -macrange 174 -mac0 c4f57cb600ab
+
+seeprominit -p SWBD181 -o init -t ALL -pn 40-1001200-01D -sn FAB3250M00E -rev 1 -oui c4f57c -wwn B600AD  -lid 1000c4f57cb600ad -filler0 1 -wwnrange 48 -macrange 174 -mac0 c4f57cb600ad
+
+seeprominit -p SWBD181 -o init -t ALL -pn 40-1001200-01D -sn FAB3250M00F -rev 1 -oui c4f57c -wwn B600AF  -lid 1000c4f57cb600af -filler0 1 -wwnrange 48 -macrange 174 -mac0 c4f57cb600af
+
+seeprominit -p SWBD181 -o init -t ALL -pn 40-1001250-01 -sn FMC0305P00B -rev 1 -oui c4f57c -wwn B600BF  -lid 1000c4f57cb600bf -filler0 1 -wwnrange 48 -macrange 174 -mac0 c4f57cb600bf -enetsfp 1 -airflow 0 -hwrw A
+
+c4:f5:7c:01:35:98  4月23日 sj 远程板子fru初始化。
+seeprominit -p SWBD181 -o init -t ALL -pn 40-1001250-01 -sn FMC0305PAAB -rev 1 -oui c4f57c -wwn 013598  -lid 1000c4f57c013598 -filler0 1 -wwnrange 48 -macrange 174 -mac0 c4f57c013598 -enetsfp 1 -airflow 0 -hwrw A
+
+seeprominit -p SWBD181 -o init -t PS -u 1 -pn 40-1001250-01 -sn FMC0305P00B -rev 1 -filler0 1 -airflow 0 -enetsfp 1 -hwrw A
+
+seeprominit -p SWBD181 -o init -t FAN -u 1 -pn 40-1001250-01 -sn FMC0305P00B -rev 1 -filler0 1 -airflow 0 -enetsfp 1 -hwrw A
+
+P1B
+seeprominit -p SWBD181 -o init -t ALL -pn 40-1001250-02 -sn FMC0318P00E -rev 1 -oui c4f57c -wwn 013118  -lid 1000c4f57c013118 -filler0 1 -wwnrange 48 -macrange 174 -mac0 c4f57c013118 -enetsfp 1 -airflow 0 -hwrw A
+
+seeprominit -p SWBD181 -o init -t ALL -pn 40-1001250-02 -sn FMC0318P00E -rev 1 -oui c4f57c -wwn 013118  -lid 1000c4f57c013118 -filler0 1 -wwnrange 48 -macrange 174 -mac0 c4f57c013118 -enetsfp 1 -airflow 0 -hwrw A
+
+A-wing
+
+seeprominit -p SWBD178 -o init -t ALL -pn 40-1001247-02 -sn FLM0302P00K -rev 1 -oui c4f57c -wwn 0133b8 -lid 1000c4f57c0133b8 -filler0 1 -wwnrange 24 -mac0 c4f57c0133b8 -macrange 16 -enetsfp 1 -airflow 0 -hwrw A
+
+seeprominit -p SWBD178 -o init -t PS -u 1 -pn 40-1001247-02 -sn FLM0302P00K -rev 1 -filler0 1 -airflow 0 -enetsfp 1 -hwrw A
+
+seeprominit -p SWBD178 -o init -t FAN -u 1 -pn 40-1001247-02 -sn FLM0302P00K -rev 1 -filler0 1 -airflow 0 -enetsfp 1 -hwrw A
+
+seeprominit -p SWBD178 -o read -t ALL
+
+
+seeprominit -p SWBD178 -o init -t PS -u 1 -pn 40-1001247-04 -sn FLM3214P025 -rev 1 -filler0 1 -airflow 0 -enetsfp 1 -hwrw A
+
+seeprominit -p SWBD178 -o init -t FAN -u 1 -pn 40-1001247-04 -sn FLM3214P025 -rev 1 -filler0 1 -airflow 0 -enetsfp 1 -hwrw A
+
+Chewbacca init fru
+seeprominit -o init -t ALL -p SWBD170 -pn 40-1001159-03 -sn EWF0342L00E -oui 0027f8 -wwn f384b0 -wwnrange 64 -mac0 0027f8f384b0 -macrange 40  -airflow 0 -enetsfp 1 -rev 2 -filler0 1 -lid 10000027f8f384b0
+
+/*******************************************************firmwareDownload**************************************/如果有时候失败，考虑下网络IP是否有冲突
+Please use “firmwareDownload –sf” to load your code to only one partition.That way it can easily recover if something went wrong.
+ex: firmwareDownload -sf 10.31.2.25,,/pub/sre/SQA/nos/nos4.1.3/nos4.1.3_bld03/release.plist
+FTP Locations: Make sure the files are in the ftp location before you perform firmwaredownload.
+
+San Jose HQ:
+firmwaredownload -sf 10.31.2.25,,/pub/sre/SQA/nos/nos4.1.3/nos4.1.3_bld03/release.plist,
+or
+firmwaredownload -sf 10.31.2.25,,/pub/sre/SQA/nos/nos4.1.3/nos4.1.3_bld03/release.plist
+
+Broomfield BR4:
+firmwaredownload -sf 10.38.2.25,,/pub/sre/SQA/nos/nos4.1.3/nos4.1.3_bld03/release.plist,
+or
+firmwaredownload -sf 10.38.2.25,,/pub/sre/SQA/nos/nos4.1.3/nos4.1.3_bld03/release.plist
+
+Bangalore BRI:
+firmwaredownload -sf 10.37.2.25,,/pub/sre/SQA/nos/nos4.1.3/nos4.1.3_bld03/release.plist,
+or
+firmwaredownload -sf 10.37.2.25,,/pub/sre/SQA/nos/nos4.1.3/nos4.1.3_bld03/release.plist
+
+//////////////////////////////////chewbacca firewaredownload ///////////////////////////////////////////////////
+
+firmwaredownload -sf 10.24.144.5,,/proj/sredev/v8.1.0_pit_a_sre/v8.1.0_pit_a_fullfvt_160713_1600/dist
+step 1:
+用firmwarestatus 查看状态。记录firmwaredownload的信息。
+step 2：
+firmwaredownload
+step 3:
+输入IP地址： 10.31.2.25
+输入文件名称：/proj/sredev/v8.1.0_pit_a_sre/v8.1.0_pit_a_fullfvt_160713_1600/dist/
+              /proj/sredev/v8.1.0_pit_a_sre/v8.1.0_pit_a_fullfvt_160717_2254/dist/   
+			  
+			  v8.1.0v8.1.0_pit_a_160717_2254
+
+/////////////////////////////////in nos system////////////////////////////////////////////////////////////////// 
+
+firmware download default-config ftp host 10.31.2.25 user releaseuser password releaseuser directory /pub/sre/SQA/nos/nos3.0.0_dcb/nos3.0.0_dcb4_rc1_bld03/release.plist
+firmware download default-config ftp host 10.31.2.25 user releaseuser password releaseuser directory /pub/sre/SQA/nos/nos4.1.3/nos4.1.3_bld03/release.plist
+
+// install in local usb module
+bootp 
+
+makesinrec 0x1000000; tftpboot 0x2000000 katana2/uImage.netinstall; 
+tftpboot 0x3000000 katana2/ramdisk.image; tftpboot 0x4000000 katana2/silkworm.dtb.netinstall
+
+bootm 2000000 3000000 4000000
+
+ifconfig eth0 10.115.42.150 netmask 255.255.128.0 up
+
+mount -t nfs -o nolock,tcp 10.115.1.80:/export/install/mfgdiag /load
+mount -o nolock 10.115.1.204:/mfgdiag /load
+mount -t ext4 /dev/sda1 /mnt
+mount -t ext4 /dev/sda2 /mnt
+cp /load/nos6.0.1_KATANA2_MFG02A /mnt -aR
+
+cd /
+
+sync
+
+umount /load 
+
+umount /mnt
+
+mount -t ext4 /dev/sda1 /load
+
+cd /load
+
+//end install local
+
+sw0# firmware download interactive 
+Server name or IP address: 10.70.212.152
+File name: /buildsjc/sre/SQA/nos/nos3.0.0_dcb/nos3.0.0_dcb3
+Protocol (ftp, scp): ftp
+User: phuynh
+Password: ***********
+Reboot system after download? [y/n]:y
+Do Auto-Commit after Reboot? [y/n]:y
+Checking conditions for downloading to 3.0.x
+
+System sanity check passed.
+
+
+//////////////////////////////////HP　chassis commands////////////////////////////////
+
+ibcset 190 x 1    //设置动态密码
+ibcget 191        //获取动态密码
+
+、、、、、、、创建节点、、、、、、、、、、、、、、、、
+/sbin/insmod -f /nfabos/modules/dpci_switch-module.ko  
+cat /proc/devices | /bin/grep dpci | cut -f 1 -d" "  
+rm -f /dev/dpci_switch-module.mod 
+mknod /dev/dpci_switch-module.mod c 253 0
+Do you want to continue? [y/n]:y
+/////////////////////////////////////Linux  test commands////////////////////////////////////
+Verify the new prom:
+
+bash-2.04# cat /dev/prom0 > prom0.bin
+bash-2.04# ./flash_write -i prom0.bin -o /dev/prom1   # Backup partition update
+bash-2.04# ./flash_write -i prom0.bin -o /dev/prom0   # Primary partition update
+
+/************************************一些用于控制产品或NOS/FOS的指令*******************/
+1.控制DIAG POST的开关
+diagpost enable|disable
+2.控制switch启动脚本里的一些开关
+chkconfig silicond off 
+3.version，查看NOS的版本
+4.noscli，进入nos命令行界面
+5.reload，nos下重启switch
+6.查看firmware版本
+firmwareshow
+7.烧录FPGA文件
+jtagpgm -m xxx.xsvf 
+8.查看FPGA数据
+cat /proc/system/fpga
+9.查看错误
+errdumpall | grep DGD
+10. FOS 中设置打印级别，方便调试
+setdbg DIAG 9
+11.FOS中fos_diag plb测试命令
+/fabos/cliexec/exec_diag2 portloopbacktest -nframes 100 -lb_mode 2
+/fabos/cliexec/exec_diag2 portloopbacktest -nframes 5 -lb_mode 2
+12. porttestshow
+sw0:root> porttestshow -ports 26
+Port 26 : PASS
+PortType: LOOPBACK PORT            PortState: TEST DONE
+PortInternalState: INIT                    PortTypeToTest: NO_TEST
+Pattern: 0xb            Seed: 0xaa           UserDelay: 10
+TotalIteration: 20                 CurrentIteration: 20
+TotalFail: 0                       ConsecutiveFail: 0
+StartTime: Thu Dec 11 07:40:03 2014
+StopTime:  Thu Dec 11 07:40:14 2014
+Timeout: 0                         ErrorCode: 0
+
+.....      
+sw0:root>
+13.在fos下查看和更新FPGA
+a. cat  /proc/system/fpga.  check byte 0
+b. cd /fabos/share
+   ./jtagpgm -f fpgafilename    ////在nfdiag下使用-m  在fos下使用-f
+14.FOS porttest commands log
+sw0:root> porttest
+
+Running porttest ..............
+
+  Please use portTestShow command to take a snapshot of the test result.
+
+.....      
+sw0:root> porttestshow -p 26
+Invalid or unrecognized parameter: -p 26
+
+USAGE :
+porttestshow [ -ports itemlist ] 
+sw0:root> porttestshow -ports 26
+Port 26 : PASS
+PortType: LOOPBACK PORT            PortState: TEST DONEF
+PortInternalState: INIT                    PortTypeToTest: NO_TEST
+Pattern: 0xb            Seed: 0xaa           UserDelay: 10
+TotalIteration: 20                 CurrentIteration: 20
+TotalFail: 0                       ConsecutiveFail: 0
+StartTime: Thu Dec 11 07:40:03 2014
+StopTime:  Thu Dec 11 07:40:14 2014
+Timeout: 0                         ErrorCode: 0
+
+.....      
+sw0:root>
+15. Dump  serdes  value.
+sw0:root> cat /proc/system/serdes_show
+Dump the serdes settings:
+UPort#  1 [Current]:
+Speed : TxDrv TxTap0 TxTap1 TxTap2 TxAmp TxPol RxCfg
+[16G ]: 0000  0004   0029   0000   0039  00fa  b878
+16. POST turboramtest command
+17. POST portledtest command.
+18.
+firmwaredownload 192.168.65.21,hwteam,/mfgdiag/edward/shenlong/dist/v7.4.0_ins_bld14,hwteam
+firmwaredownload 192.168.65.21,hwteam,/mfgdiag/redbird/v7.3.0_hur_bld18,hwteam   
+firmwaredownload 192.168.65.21,hwteam,/mfgdiag/edward/graphite/dist/v7.3.0_cng_bld25,hwteam
+
+firmwaredownload 192.168.65.21,hwteam,/mfgdiag/starlynx/fos/v8.1.0_lnx_bld04,hwteam 
+firmwaredownload 192.168.65.21,hwteam,/mfgdiag/starlynx/fos/v8.1.0_lnx_bld05,hwteam
+19.
+fos  测试版本路径
+/buildsjc/sre/SQA/fos/v7.4.0_ins/v7.4.0_ins_bld14
+20.
+/fabos/share/vpdwrite -tfile vpdfile to update VPD.
+
+
+diff -b -C 5 ../linux_2_6_34_tseries/drivers/rtc/rtc-m41t11.c drivers/rtc/rtc-m41t11.c | more
+21. graphite 中关掉对reboot的检测。默认是开启的，如果3000S中多余5次reboot，就会报警。
+chkconfig rrd off
+
+22.打包命令：
+emake_wrapper BD=161 dist 
+
+23.在fos中查看fpga寄存器。
+cat /proc/system/fpga_show_all 
+
+24.Admin 用户登录，然后修改可以root。
+userconfig --change root -e yes
+TMP411 sensor commands:
+main (Cassian)> iic -o read -m temp -u 6 -l 1 -a 3
+
+
+00000003 00 
+
+
+main (Cassian)> iic -o write -m temp -u 6 -l 1 -a 0x9 -d 0x4
+
+
+
+main (Cassian)> iic -o read -m temp -u 6 -l 1 -a 3
+
+
+00000003 04 
+
+chewbacca update the FPGA.
+jbipgm -aPROGRAM -dDO_REAL_TIME_ISP=1 Chewbacca_sys_Rev0603_06292016.jbc
+
+./jbipgm_0303 -aPROGRAM -dDO_REAL_TIME_ISP=1 -l  Cassian_ver15.jbc
+
+./jbipgm_0303 -aPROGRAM -dDO_REAL_TIME_ISP=1  Cassian_ver15.jbc
+./jbipgm_0304_2 -aPROGRAM -dDO_REAL_TIME_ISP=1  Cassian_ver15.jbc
+./jbipgm_0304_4 -aPROGRAM -dDO_REAL_TIME_ISP=1  -l Cassian_ver15.jbc
+
+./jbipgm_0304_3 -aPROGRAM -dDO_REAL_TIME_ISP=1  Cassian_ver15.jbc
+
+./jbipgm_0304_5 -aPROGRAM -dDO_REAL_TIME_ISP=1  Cassian_ver15.jbc
+
+./jbipgm_0306_debug_tdi_tms -aPROGRAM -dDO_REAL_TIME_ISP=1  Cassian_ver15.jbc
+
+./jbipgm_0326 -aPROGRAM -dDO_REAL_TIME_ISP=1  Cassian_ver15.jbc
+
+./jbipgm_0326_2 -aPROGRAM -dDO_REAL_TIME_ISP=1  Cassian_ver15.jbc
+
+./jbipgm_0306_debug -aPROGRAM -dDO_REAL_TIME_ISP=1 cassian_1_5_on_prg.jbc
+
+./jbipgm_0306 -aPROGRAM -dDO_REAL_TIME_ISP=1 cassian_1_5_on_prg.jbc
+
+./jbipgm_0326_2 -aPROGRAM -dDO_REAL_TIME_ISP=1 cassian_1_5_on_prg.jbc
+
+./jbipgm_0306_debug -aPROGRAM -dDO_REAL_TIME_ISP=1 -f canssian_LLI.jbc
+
+./jbipgm_0306_debug -aPROGRAM -dDO_REAL_TIME_ISP=1 -f cassian_2LLIs_1_1.jbc
+
+./jbipgm_0326_2 -aPROGRAM -dDO_REAL_TIME_ISP=1 -f cassian_2LLIs_1_1.jbc
+
+Cassian jbipgm 编译通过后所在路径。
+/vobs/projects/springboard/build/swbd161/nfosdiag/src/diag/common_mfgdiag_build_/drivers/altera_jtagpgm/jbipgm
+bin文件。
+/vobs/projects/springboard/build/swbd161/nfosdiagN/src/diag/common/drivers/altera_jtagpgm/jbipgm
+jbipgm -aPROGRAM -dDO_REAL_TIME_ISP=1 63-1001742-04_Rev0C_08032017.jbc
+25.Brocade FTP server 
+\\Corp.brocade.com\shares\PlatformDevelopment-JDM-MIRROR\BVT_WORKS\
+
+26.Broadcom log server URL.
+http://mfglogs.lvn.broadcom.net/logs/profile_xbtl/xbtl/20180710-194112-CCC3227P05X.xbtl/uutsn=CCC3227P05X
+
+vim 命令
+1.修改完vimrc后需要激活一下就可以了。
+:source ~/.vimrc （你得确定你的vimrc的路径）
+2.Vim如何跳转到光标的临近几次的位置
+ctrl+i 前一个视图 ctrl+o 后一个视图
