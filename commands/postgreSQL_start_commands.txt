@@ -1,0 +1,9 @@
+psql -h localhost –U Administrator -U postgres  -p 5432 -W
+
+psql -W
+pg_ctl -D C:\pgsql\data start
+
+
+initdb.exe -D C:\pgsql\data -E UTF-8 --locale=chs -U postgres -W
+
+pg_ctl register -N PostgreSQL -D C:\pgsql\data

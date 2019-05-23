@@ -1,0 +1,4 @@
+make -f Makefile.nfosdiag BD=161 slink;cd ../build/swbd161/make;/tools/bsnbld/scripts/emake_wrapper.git linux_build;cd ../linux;cp ../linux_4_1_35/include/generated/autoconf.h include/linux/.;cd ../nfosdiag/src/diag;/tools/bsnbld/scripts/emake_wrapper.git;cd ../../../dist;make -f Makefile.nfosdiag nfosdiag-gen6;
+
+/zzz/work02/el023144/git_clone/fos_v9.0.0_dev/vobs/projects/springboard
+

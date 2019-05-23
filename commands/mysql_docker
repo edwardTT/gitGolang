@@ -105,5 +105,14 @@ Slave_SQL_Running: Yes
 
 
 mysql 常用命令：
+数据库并发数查询
+mysql> show global status like 'Threads_running';
++-----------------+-------+
+| Variable_name   | Value |
++-----------------+-------+
+| Threads_running | 2     |
++-----------------+-------+
+1 row in set (0.01 sec)
+
 
 

@@ -1,0 +1,131 @@
+bsnvdga0388.gwd.broadcom.net
+bsnvdga0145.gwd.broadcom.net
+git key: Edward255!
+
+新打开的控制终端要执行如下命令
+ssh-add ~/.ssh/id_rsa
+URL：
+https://github-bsn.broadcom.com 
+
+SSH Key:
+
+ssh-keygen -t rsa -b 4096 -C "edward.liu@broadcom.com"
+   12  pwd
+   13  cd /zzz/work04/rr402371/
+   14  ls
+   15  /tools/bsnbld/scripts/gittools/get_my_workspace
+   /zzz/work02/el023144
+   cd /zzz/work02/el023144
+   16  ls
+   17  cd gitw
+   18  ls
+   19  git clone -b nfosdiag_main git@gheprd-bsn-01.gwd.broadcom.net:san/bsnnfdiag.git bsnnfdiag_local_clone_nfosdiag_main
+   
+   git clone -b nfosdiag_main git@gheprd-bsn-01.gwd.broadcom.net:san/bsnnfdiag.git bsnnfdiag_local_clone_nfosdiag_main
+Cassian   
+   
+   git clone -b v9.0.0_pit git@gheprd-bsn-01.gwd.broadcom.net:san/bsnnfdiag.git bsnnfdiag_local_clone_v9.0.0_pit
+   git clone -b v9.0.0_pit git@gheprd-bsn-01.gwd.broadcom.net:san/bsnnfdiag.git bsnnfdiag_local_clone_v9.0.0_pit_0619
+   git clone -b v8.2.0_pit git@gheprd-bsn-01.gwd.broadcom.net:san/bsnnfdiag.git nfosdiag_v8.2.0_pit_local_repo
+   git clone -b v9.0.0_pit git@github-bsn.broadcom.com:san/bsnnfdiag.git bsnnfdiag_local_clone_v9.0.0_pit_1212
+   git clone -b v9.0.0_pit git@github.gwd.broadcom.net:BSN/bsnnfdiag.git bsnnfdiag_local_clone_v9.0.0_pit_0111
+Gp32
+   git clone -b v8.2.0_gft_rel  git@gheprd-bsn-01.gwd.broadcom.net:san/bsnnfdiag.git bsnnfdiag_local_clone_v8.2.0_gft_rel
+   git clone -b v8.2.1_pit git@github.gwd.broadcom.net:BSN/bsnnfdiag.git bsnnfdiag_v8.2.1_pit_0314
+   git clone -b v8.2.0_gft_rel git@github.gwd.broadcom.net:BSN/bsnnfdiag.git bsnnfdiag_v8.2.0_gft_rel_0319
+A-wing
+   git clone -b v8.2.1_pit  git@gheprd-bsn-01.gwd.broadcom.net:san/bsnnfdiag.git bsnnfdiag_local_clone_v8.2.1_pit
+StarLynx
+   Clone nfosdiag 
+   git clone -b v8.1.x_lnx_rel git@gheprd-bsn-01.gwd.broadcom.net:san/bsnnfdiag.git bsnnfdiag_local_clone_v8.1.x_lnx_rel_0802
+   Clone fos
+   git clone -b v8.1.0_lnx_patch git@gheprd-bsn-01.gwd.broadcom.net:san/bsnfos.git fos_v8.1.0_lnx_patch_local_repo
+Pyuniti_dev 
+   git clone -b pyuniti_dev git@gheprd-bsn-01.gwd.broadcom.net:san/pyuniti.git pyuniti_local_clone_0822
+   20  ls
+   21  cd bsnnfdiag_local_clone_nfosdiag_main
+   22  ls
+   23  git branch -b priv_rr402371_nfosdiag_main_01
+   25  git checkout -b priv_rr402371_nfosdiag_main_01
+   
+   git checkout -b priv_el023144_nfosdiag_main_01
+   26  git branch
+   27  git checkout -b priv_rr402371_nfosdiag_main_02
+   git checkout -b priv_el023144_v9.0.0_pit_02
+   git checkout -b priv_el023144_v9.0.0_pit_03
+   28  git branch
+   29  git checkout priv_rr402371_nfosdiag_main_01
+   30  git branch
+   31  ls
+   32  cd vobs/projects/springboard/nfosdiag/
+   33  ls
+   34  git log README.txt 
+   35  ls
+   36  cd src/diag/neptune/
+   37  ls
+   38  vi owslink.sh
+   39  git status
+   40  git add .
+   41  git status
+   42  git commit
+   43  git log
+   44  ls
+   45  git log owslink.sh
+   46  git branch
+   47  git push -u origin priv_rr402371_nfosdiag_main_01
+       git push -u origin  priv_el023144_nfosdiag_v9.0.0_pit_01
+   48  git branch 
+   49  git pull origin nfosdiag_main
+       
+
+	   //和服务器上代码同步。
+   50  pwd
+   51  ls
+   52  git difftool HEAD^ owslink.sh
+   
+查看某一文件的修改历史。
+   git log -p filename
+   查看文件的每一个详细的历史修改，
+   如果没有-p选项，只显示提交记录，不显示文件内容修改，
+   git log -p -3 filename 显示最近的3次提交。
+   
+   git log --pretty=oneline filename
+   每一行显示一个提交，先显示哈希码，再显示提交说明。
+   
+   git blame filename
+   查看文件的每一行是哪个提交最后修改的。
+   git show commit_number // git show b2136792f079377a84fbf45e4bc9b483d567749d
+   # --name-only 只显示文件名 
+   git log --name-only -1
+   # --pretty=format:"" 格式化commit message 这里什么都不显示
+   git log --pretty=format:"" -1
+   # 最终
+   git log --pretty=format:"" --name-only  -1
+   
+
+  本地修改了一堆文件(并没有使用git add到暂存区)，想放弃修改。 
+单个文件/文件夹
+git checkout -- filename
+所有文件/文件夹
+git checkout .
+本地新增了一堆文件(并没有git add到暂存区)，想放弃修改。 
+单个文件/文件夹
+rm filename or rm dir -rf
+所有文件/文件夹
+git clean -xdf
+
+本地修改/新增了一堆文件，已经git add到暂存区，想放弃修改。 
+单个文件/文件夹：
+$ git reset HEAD filename
+所有文件/文件夹：
+$ git reset HEAD .
+
+本地通过git add & git commit 之后，想要撤销此次commit
+$ git reset commit_id
+这个id是你想要回到的那个节点，可以通过git log查看，可以只选前6位 
+// 撤销之后，你所做的已经commit的修改还在工作区！
+$ git reset --hard commit_id
+这个id是你想要回到的那个节点，可以通过git log查看，可以只选前6位 
+// 撤销之后，你所做的已经commit的修改将会清除，仍在工作区/暂存区的代码不会清除！
+--------------------- 
+
