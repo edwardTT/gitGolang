@@ -8,7 +8,7 @@ import (
 //UserSignUp : 通过用户名及密码完成user表的注册操作
 func UserSignUp(username string, passwd string) bool {
 	stmt, err := mydb.DBConn().Prepare(
-		"insert ignore into tbl_user(`user_name`,`user_pwd`) values (?,?)")
+		"insert ignore into tbl_user (`user_name`,`user_pwd`) values (?,?)")
 	if err != nil {
 		fmt.Println("Failed to inser, err" + err.Error())
 		return false
