@@ -7,3 +7,20 @@ pg_ctl -D C:\pgsql\data start
 initdb.exe -D C:\pgsql\data -E UTF-8 --locale=chs -U postgres -W
 
 pg_ctl register -N PostgreSQL -D C:\pgsql\data
+
+
+createuser pgsql -P
+
+createdb chitchat -O pqsql -E UTF8 -e
+
+psql -U pgsql -d chitchat -h 127.0.0.1
+
+psql -U c1901 -d postgres -h 127.0.0.1
+
+psql -U c1901 -d chitchat -h 127.0.0.1
+
+
+
+使用脚本创建chitchat数据库的tables
+psql -f setup.sql -d chitchat
+
