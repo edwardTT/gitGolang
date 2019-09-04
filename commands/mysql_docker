@@ -114,5 +114,53 @@ mysql> show global status like 'Threads_running';
 +-----------------+-------+
 1 row in set (0.01 sec)
 
+重新启动已经停止的容器：
+console log：
+bwxzing@bwxzing-docker:/data/mysql/datam$ sudo docker start efec067e34ed 
+[sudo] bwxzing 的密码： 
+efec067e34ed
+bwxzing@bwxzing-docker:/data/mysql/datam$ sudo docker start bae7483aeebc
+bae7483aeebc
+bwxzing@bwxzing-docker:/data/mysql/datam$ docker ps 
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                NAMES
+78d19cf79c5f        grafana/grafana     "/run.sh"                2 months ago        Up 2 days           0.0.0.0:3000->3000/tcp               grafana
+bae7483aeebc        mysql:5.7           "docker-entrypoint.s…"   3 months ago        Up 11 seconds       33060/tcp, 0.0.0.0:13307->3306/tcp   mysql-slave
+efec067e34ed        mysql:5.7           "docker-entrypoint.s…"   3 months ago        Up 24 seconds       33060/tcp, 0.0.0.0:13306->3306/tcp   mysql-master
 
+登陆服务器：
+mysql -u root -h 192.168.65.126 -P13306 -p123456
+commands list:
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| fileserver         |
+| mysql              |
+| performance_schema |
+| sys                |
+| test1              |
+| test2              |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from tbl_user_token;
++----+-----------+------------------------------------------+
+| id | user_name | user_token                               |
++----+-----------+------------------------------------------+
+|  1 | edward    | d91c4c4f72123ed1e0f8285cd22402535d15d5aa |
++----+-----------+------------------------------------------+
+1 row in set (0.00 sec)
+//指定要连接的数据库
+mysql> use fileserver;
+Database changed
+//查看当前数据库的名字
+mysql> select database();
++------------+
+| database() |
++------------+
+| fileserver |
++------------+
+
+show tables; //显示现在数据库中的所有tables
 
