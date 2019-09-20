@@ -382,7 +382,7 @@
 
   4. 重复步骤2和步骤3，直到第一行已经修改完毕。
 
---->  Whan this lime was tuoed in, someone presswd some wrojg keys!
+--->  Whan this line was tuoed in, someone pressed some wrong keys!
 --->  When this line was typed in, someone pressed some wrong keys!
 
   5. 然后我们继续学习第三讲第三节。
@@ -432,7 +432,7 @@
 
   5. 然后输入 c$ 使得该行剩下的部分更正得同第二行一样。最后按 <ESC> 键。
 
----> The end of this line needs some help to make it like the second.
+---> The end of this line needs to be corrected using the c$ command.
 ---> The end of this line needs to be corrected using the  c$  command.
 
 
