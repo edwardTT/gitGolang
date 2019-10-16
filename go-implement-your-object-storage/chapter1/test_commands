@@ -1,0 +1,3 @@
+1. Run command:  LISTEN_ADDRESS=:8080  STORAGE_ROOT=/tmp go run server.go
+2. Get command: curl -v 192.168.65.126:8080/objects/test
+3.Put command: curl -v 192.168.65.126:8080/objects/test -XPUT -d"This is a test file"

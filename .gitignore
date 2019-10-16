@@ -4,7 +4,8 @@
 *.so
 
 # Folders
-
+edwardfilesever/filestore-server_9_verified_done/.idea/*
+go-implement-your-object-storage/.idea/*
 # Binaries for programs and plugins
 *.exe
 *.exe~
