@@ -248,6 +248,8 @@ func (l *LogProcess) Process() {
 
 func main() {
 	var path, influxDsn string
+	// go run full_logprocess.go -path ./access.log  -influxDsn http://192.168.65.126:8086@edward@password@Log_Database@s
+	//go run full_logprocess.go -path ./access.log  -influxDsn http://127.0.0.1:8086@edward@password@Log_Database@s
 	flag.StringVar(&path, "path", "./access.log", "read file path")
 	flag.StringVar(&influxDsn, "influxDsn", "http://127.0.0.1:8086@edward@password@Log_Database@s", "influx data source")
 	flag.Parse()
